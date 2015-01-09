@@ -2,6 +2,7 @@ var GameLayer = cc.Layer.extend({
 	_bombs:[],
     _subs:[],
     _torpedos:[],
+    _carePackages:[],
     ship:null,
     size:0,
     score:0,
@@ -17,11 +18,18 @@ var GameLayer = cc.Layer.extend({
         this.scoreLabel.setPosition(cc.p(this.scoreLabel.width,size.height-this.scoreLabel.height));
         this.addChild(this.scoreLabel, 2);
 
+        
+
+
 		//set the starting position of the this.ship
         this.ship = new Ship();
         this.ship.x = size.width/2;
-        this.ship.y = size.height - size.height/6+ this.ship.height/2-this.ship.height/8;
+        this.ship.y = size.height - size.height/6+ this.ship.height/2-this.ship.height/20;
         this.addChild(this.ship, 10);
+
+        this.ammoLabel = new cc.LabelTTF("Ammo: " + this.ship.ammo, "Arial", 16);
+        this.ammoLabel.setPosition(cc.p(size.width - this.ammoLabel.width,size.height-this.ammoLabel.height));
+        this.addChild(this.ammoLabel, 2);
 
         //add a sub
         var sub = Sub.grabOrCreate();
@@ -37,6 +45,12 @@ var GameLayer = cc.Layer.extend({
         this.addChild(sub, 1000);
         this._subs.push(sub);
 
+        cp = new carePackage();
+        cp.x = size.width/2 + 100;
+        cp.y = size.height;
+        this.addChild(cp, 10);
+        this._carePackages.push(cp);
+        //this.cp.runAction( new cc.MoveTo(2, cc.p(this.cp.x, size.height*5/6) ));
 
         //Set Up Accelerometer
 		if(cc.sys.capabilities.hasOwnProperty('accelerometer')){
@@ -68,19 +82,24 @@ var GameLayer = cc.Layer.extend({
 	        	onTouchBegan: function (touch, event){
                 //this.ship.x = size.width/2
 
-                var target = event.getCurrentTarget();
-                var ship = target.ship;
-                var bomb = Bomb.grabOrCreate();
-                if(touch.getLocation().x < size.width/2){
-                	bomb.x = ship.x - ship.width/4;
-                }
-                else{
-               		bomb.x = ship.x + ship.width/4;
-                }
-                bomb.y = ship.y- ship.height/2 + bomb.height/2;
-                target._bombs.push(bomb);
-                target.addChild(bomb, 9);
-                return true;
+                    var target = event.getCurrentTarget();
+                    var ship = target.ship;
+                    if (ship.ammo > 0) {
+                        var bomb = Bomb.grabOrCreate();
+                        if(touch.getLocation().x < size.width/2){
+                        	bomb.x = ship.x - ship.width/4;
+                        }
+                        else{
+                       		bomb.x = ship.x + ship.width/4;
+                        }
+                        bomb.y = ship.y- ship.height/2 + bomb.height/2;
+                        target._bombs.push(bomb);
+                        target.addChild(bomb, 9);
+                        target.ship.ammo--;
+                        target.ammoLabel.setString("Ammo: " + target.ship.ammo);
+                    };
+
+                    return true;
 				}        	
 	        }, this);
 	    }
@@ -90,12 +109,15 @@ var GameLayer = cc.Layer.extend({
 	        	onMouseDown: function (event){
                     var target = event.getCurrentTarget();
                     var ship = target.ship;
-                    var bomb = Bomb.grabOrCreate();
-					bomb.x = ship.x;
-					bomb.y = ship.y- bomb.height/2;
-                    target._bombs.push(bomb);
-					target.addChild(bomb, 9);
-
+                    if(ship.ammo > 0){
+                        var bomb = Bomb.grabOrCreate();
+    					bomb.x = ship.x;
+    					bomb.y = ship.y- bomb.height/2;
+                        target._bombs.push(bomb);
+    					target.addChild(bomb, 9);
+                        target.ship.ammo--;
+                        target.ammoLabel.setString("Ammo: " + target.ship.ammo);
+                    }
 					return true;
 				}        	
             }, this);
@@ -117,7 +139,14 @@ var GameLayer = cc.Layer.extend({
             sub.y = Math.random()*this.size.height*5/6;
             this.addChild(sub, 1000);
             this._subs.push(sub);
-        }                                
+        }   
+        if (this._carePackages.length<1) {
+            cp = new carePackage();
+            cp.x = this.size.width/2 + 100;
+            cp.y = this.size.height;
+            this.addChild(cp, 10);
+            this._carePackages.push(cp);
+        };                             
                                 
         for( var i = 0; i< this._bombs.length; i++){
             var bomb = this._bombs[i];
@@ -150,5 +179,37 @@ var GameLayer = cc.Layer.extend({
                 this.ship.removeFromParent(true);
             };
         };
+        for (var i = this._carePackages.length - 1; i >= 0; i--) {
+
+            var packageBoundingBox = this._carePackages[i].pack.getBoundingBox();
+            var pack = this._carePackages[i].pack;
+            var newCenter = pack.convertToWorldSpace(cc.p(pack.x, pack.y));
+            var packageBox = this.changeBoxCoords(this._carePackages[i].pack, packageBoundingBox);
+            var longBox = this.changeBoxCoords(this.ship, this.ship.longBox);
+            var tallBox = this.changeBoxCoords(this.ship, this.ship.tallBox);
+
+            if (this._carePackages[i].care.visible) {
+                if(cc.rectContainsPoint(longBox,newCenter) || cc.rectContainsPoint(tallBox,newCenter) ) {
+                    this._carePackages[i].removeFromParent(true);
+                    this._carePackages.splice(i,1);
+                    this.ship.ammo += 5;
+                    this.ammoLabel.setString("Ammo: " + this.ship.ammo);
+                }
+            }
+            else{
+                if(cc.rectIntersectsRect(this.ship.getBoundingBox(),packageBox)) {
+                    this._carePackages[i].removeFromParent(true);
+                    this._carePackages.splice(i,1);
+                    this.ship.ammo += 5;
+                    this.ammoLabel.setString("Ammo: " + this.ship.ammo);
+                }
+                
+            }
+        };
+    },
+    changeBoxCoords:function(space, rect){
+        var newOrigin = space.convertToWorldSpace(cc.p(rect.x,rect.y));
+        var newBox = new cc.rect(newOrigin.x, newOrigin.y, rect.width, rect.height);
+        return newBox;
     }
 });

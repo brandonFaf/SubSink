@@ -19,6 +19,7 @@
         "src/Ship.js",
         "src/Sub.js",
         "src/Bomb.js",
-        "src/Torpedo.js"        
+        "src/Torpedo.js",
+        "src/carePackage.js"        
     ]
 }

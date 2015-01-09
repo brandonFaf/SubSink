@@ -17,7 +17,10 @@ var res = {
     Bomb_png : folder + "bomb.png",
     Boom_png: folder + "BOOM.png",
     Bang_sound: "res/sound/Bang.wav",
-    Torpedo_png: folder + "torpedo.png"
+    Torpedo_png: folder + "torpedo.png",
+    care_png: folder + "care.png",
+    package_png: folder + "package.png",
+    cp_png:folder + "carePackage.png"
 };
 
 var g_resources = [];
