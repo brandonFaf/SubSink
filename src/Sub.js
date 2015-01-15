@@ -3,15 +3,18 @@ var Sub = cc.Sprite.extend({
 	direction:"left",
 	size:0,
 	shootTime:0,
+	torpedoSpeed:0,
 	ctor: function() {
 		this._super(res.Sub_png);
 		this.init();
 	},
 	init: function(){
-		this.speed = 100;
+		this.speed = Math.random() *100+50;
+		this.torpedoSpeed = Math.random() *30 + 30;
 		this.size = cc.winSize;
+		this.shootTime = Math.random()*2+2;
 		this.scheduleUpdate();
-		this.shootTime = Math.random()*3+3;
+
 	},
 	update: function (dt){
 		if(this.direction == "left"){
@@ -34,6 +37,7 @@ var Sub = cc.Sprite.extend({
         {
         	var torpedo = new Torpedo();
         	torpedo.setPosition(this.getPosition());
+        	torpedo.speed = this.torpedoSpeed;
         	this.parent.addChild(torpedo);
         	this.parent._torpedos.push(torpedo);
         	this.shootTime = Math.random()*3+3;

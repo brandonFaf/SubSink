@@ -12,6 +12,8 @@ var res = {
     CloseSelected_png : folder + "CloseSelected.png",
     Background_png : folder + "SubBackground.png",
     Ship_png : folder + "Ship.png",
+    Ship_hurt_png : folder + "ShipHurt.png",
+    Ship_hurt_more_png : folder + "ShipHurtMore.png",
     Sub_Long_png : folder + "SubLong.png",
     Sub_png : folder + "Sub.png",
     Bomb_png : folder + "bomb.png",
@@ -20,7 +22,7 @@ var res = {
     Torpedo_png: folder + "torpedo.png",
     care_png: folder + "care.png",
     package_png: folder + "package.png",
-    cp_png:folder + "carePackage.png"
+    smoke: folder +"smoke.png"
 };
 
 var g_resources = [];

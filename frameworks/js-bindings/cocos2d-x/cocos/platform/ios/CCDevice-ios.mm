@@ -102,10 +102,10 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
 
 - (void)accelerometer:(CMAccelerometerData *)accelerometerData
 {
-    _acceleration->x = accelerometerData.acceleration.x;
-    _acceleration->y = accelerometerData.acceleration.y;
-    _acceleration->z = accelerometerData.acceleration.z;
-    _acceleration->timestamp = accelerometerData.timestamp;
+    _acceleration->x = _motionManager.accelerometerData.acceleration.x;
+    _acceleration->y = _motionManager.accelerometerData.acceleration.y;
+    _acceleration->z = _motionManager.accelerometerData.acceleration.z;
+    _acceleration->timestamp = _motionManager.accelerometerData.timestamp;
     
     double tmp = _acceleration->x;
     

@@ -7,6 +7,7 @@ var GameLayer = cc.Layer.extend({
     size:0,
     score:0,
     scoreLabel:null,
+    carePackageTime:0,
     ctor: function(){
 		this._super();
 		
@@ -17,9 +18,7 @@ var GameLayer = cc.Layer.extend({
         this.scoreLabel = new cc.LabelTTF("Score: " + this.score, "Arial", 16);
         this.scoreLabel.setPosition(cc.p(this.scoreLabel.width,size.height-this.scoreLabel.height));
         this.addChild(this.scoreLabel, 2);
-
-        
-
+        this.carePackageTime = Math.random() *5+5;
 
 		//set the starting position of the this.ship
         this.ship = new Ship();
@@ -31,27 +30,6 @@ var GameLayer = cc.Layer.extend({
         this.ammoLabel.setPosition(cc.p(size.width - this.ammoLabel.width,size.height-this.ammoLabel.height));
         this.addChild(this.ammoLabel, 2);
 
-        //add a sub
-        var sub = Sub.grabOrCreate();
-        if (Math.random()>.5) 
-        {
-            sub.x = -sub.width/2;
-        }
-        else{
-            sub.x = this.size.width+sub.width/2;
-        }
-
-        sub.y = Math.random()*this.size.height*5/6;
-        this.addChild(sub, 1000);
-        this._subs.push(sub);
-
-        cp = new carePackage();
-        cp.x = size.width/2 + 100;
-        cp.y = size.height;
-        this.addChild(cp, 10);
-        this._carePackages.push(cp);
-        //this.cp.runAction( new cc.MoveTo(2, cc.p(this.cp.x, size.height*5/6) ));
-
         //Set Up Accelerometer
 		if(cc.sys.capabilities.hasOwnProperty('accelerometer')){
        		cc.inputManager.setAccelerometerInterval(1/60);
@@ -59,29 +37,29 @@ var GameLayer = cc.Layer.extend({
                                 
 		}
 
-        cc.eventManager.addListener({
+        this.accelListener = cc.EventListener.create({
             event: cc.EventListener.ACCELERATION,
             callback: function(acc, event){
                 //  Processing logic here
                 var ship = event.getCurrentTarget().ship
-                var acc = acc.x - (acc.x *.5) ;
-                ship.x = ship.x + (acc * size.width * .07);
+                var accel = acc.x - (acc.x *.5) ;
+                ship.x = ship.x + (accel * size.width * .07);
                 if (ship.x - ship.width/2 <= 0){
-                	ship.x = ship.width/2 ;
+                    ship.x = ship.width/2 ;
                 }
                 if ( ship.x + ship.width/2 >= size.width){
-                	ship.x = size.width - ship.width/2;
+                    ship.x = size.width - ship.width/2;
                 }
             }
-        }, this);
+        });
+
+        cc.eventManager.addListener(this.accelListener, this);
 
         //Set Up Touch
 		if(cc.sys.capabilities.hasOwnProperty('touches')){
 	        cc.eventManager.addListener({
 	        	event: cc.EventListener.TOUCH_ONE_BY_ONE,
 	        	onTouchBegan: function (touch, event){
-                //this.ship.x = size.width/2
-
                     var target = event.getCurrentTarget();
                     var ship = target.ship;
                     if (ship.ammo > 0) {
@@ -136,14 +114,16 @@ var GameLayer = cc.Layer.extend({
                 sub.x = this.size.width+sub.width/2;
             }
 
-            sub.y = Math.random()*this.size.height*5/6;
+            sub.y = Math.random()*(this.size.height*5/6- sub.height);
             this.addChild(sub, 1000);
             this._subs.push(sub);
         }   
-        if (this._carePackages.length<1) {
+        this.carePackageTime -= dt;
+        if (this.carePackageTime < 0  && this._carePackages.length <=3) {
             cp = new carePackage();
-            cp.x = this.size.width/2 + 100;
+            cp.x = (Math.random() * (this.size.width - cp.width)) + cp.width;
             cp.y = this.size.height;
+            this.carePackageTime = Math.random() *5+5;
             this.addChild(cp, 10);
             this._carePackages.push(cp);
         };                             
@@ -170,16 +150,38 @@ var GameLayer = cc.Layer.extend({
             }
         }
         for (var i = this._torpedos.length - 1; i >= 0; i--) {
-            if(cc.rectContainsPoint(this.ship.getBoundingBox(), this._torpedos[i].getPosition())){
+            if(cc.rectIntersectsRect(this.ship.getBoundingBox(), this._torpedos[i].getBoundingBox())){
                 this.ship.health --;
-                this._torpedos[i].removeFromParent(true);
                 this._torpedos.splice(i,1);
+                if (this.ship.health == 4) {
+                    this.ship.emmiter = new cc.ParticleSmoke();
+                    this.ship.emmiter.texture = cc.textureCache.addImage(res.smoke);
+                    this.ship.emmiter.x = this.ship.width/2;
+                    this.ship.emmiter.y = this.ship.height/2
+                    this.ship.emmiter.startSize = 8;
+                    this.ship.addChild(this.ship.emmiter,-10);
+                }
+                if (this.ship.health == 3) {
+                    this.ship.texture = cc.textureCache.addImage(res.Ship_hurt_png)
+                };
+                if (this.ship.health == 2) {
+                    this.ship.emmiter.startSize = 16;
+                };
+                if (this.ship.health == 1) {
+                    this.ship.texture = cc.textureCache.addImage(res.Ship_hurt_more_png)
+                };
             }
+
             if (this.ship.health == 0) {
+                this._torpedos[i].removeFromParent(true);
                 this.ship.removeFromParent(true);
+                this.unscheduleUpdate();
+                this.ship = null;
+                cc.eventManager.removeListener(this.accelListener);
+                return;
             };
         };
-        for (var i = this._carePackages.length - 1; i >= 0; i--) {
+        for (var i = 0; i < this._carePackages.length; i++) {
 
             var packageBoundingBox = this._carePackages[i].pack.getBoundingBox();
             var pack = this._carePackages[i].pack;

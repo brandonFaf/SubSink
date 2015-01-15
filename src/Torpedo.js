@@ -5,7 +5,7 @@ var Torpedo = cc.Sprite.extend({
 		this.size = cc.winSize;
 	},
 	update:function(dt){
-		this.y += 10*dt;
+		this.y += this.speed*dt;
 		if (this.y > this.size.height - this.size.height/6) 
 		{
 			for (var i = 0; i < this.parent._torpedos.length; i++)
