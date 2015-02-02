@@ -4,9 +4,10 @@ var Sub = cc.Sprite.extend({
 	size:0,
 	shootTime:0,
 	torpedoSpeed:0,
-	ctor: function() {
-		this._super(res.Sub_png);
-		this.init();
+	hp:0,
+	ctor: function(img) {
+		this._super(img);
+		//this.init();
 	},
 	init: function(){
 		this.speed = Math.random() *100+50;
@@ -55,7 +56,12 @@ var Sub = cc.Sprite.extend({
 });
 
 Sub.create = function () {
-	return new Sub();
+	if (Math.random()*2 <1){
+		return new LongSub();
+	}
+	else{
+		return new ShortSub();
+	}
 }
 
 Sub.grabOrCreate = function() {
