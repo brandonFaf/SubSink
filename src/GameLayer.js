@@ -24,7 +24,7 @@ var GameLayer = cc.Layer.extend({
         if(size.height > 640){
             this.isIpad = true;
         }
-
+        this.clearAllArrays();
         this.scoreLabel = new cc.LabelTTF("Score: " + this.score, "Arial", 16);
         this.scoreLabel.setPosition(cc.p(this.scoreLabel.width,size.height-this.scoreLabel.height));
         this.addChild(this.scoreLabel, 2);
@@ -45,8 +45,8 @@ var GameLayer = cc.Layer.extend({
             this.ship.y = size.height - size.height/6+ this.ship.height/2-this.ship.height/20;            
         }
         this.ship.ammo = 5;
-        this.ship.health = 1;
-        this.ship.maxHealth = 1;
+        this.ship.health = 5;
+        this.ship.maxHealth = 5;
         this.ship.retain();
         this.addChild(this.ship, 10);
 
@@ -72,12 +72,25 @@ var GameLayer = cc.Layer.extend({
                 onKeyPressed: function(key, event){
                     var target = event.getCurrentTarget();
                     var ship = target.ship;
+                    cc.log(key.toString())
                     if (key == 37) {
                         //moveLeft
                         ship.x -= 10;
                         if (ship.x - ship.width/2 <= 0){
                             ship.x = ship.width/2 ;
                         }
+                    };
+                    if (key == 13) {
+                        // ship.health--;
+                        // if (ship.health == 0) {
+                        //     ship.y-=ship.height/2;
+                        //     ship.scheduleUpdate();
+                        //     ship.release();
+                        //     target.unscheduleUpdate();
+                        //     cc.eventManager.removeAllListeners();
+                        //     target.clearAllArrays();
+                        //     target.addChild(new GameOverLayer(), 1000);
+                        // }
                     };
                     if (key == 39) {
                         //moveRight
@@ -137,6 +150,20 @@ var GameLayer = cc.Layer.extend({
 	        	onTouchBegan: function (touch, event){
                     var target = event.getCurrentTarget();
                     var ship = target.ship;
+                    if (touch.getLocation().y > size.height*2/3) {
+                        // ship.health--;
+                        // if (ship.health == 0) {
+                        //     ship.y-=ship.height/2;
+                        //     ship.scheduleUpdate();
+                        //     ship.release();
+                        //     target.unscheduleUpdate();
+                        //     cc.eventManager.removeAllListeners();
+                        //     target.clearAllArrays();
+                        //     target.addChild(new GameOverLayer(), 1000);
+                        // }
+                        return true;
+                    };
+
                     if (ship.ammo > 0) {
                         var bomb = Bomb.grabOrCreate();
                         if(touch.getLocation().x < size.width/2){
@@ -145,6 +172,7 @@ var GameLayer = cc.Layer.extend({
                         else{
                        		bomb.x = ship.x + ship.width/4;
                         }
+
                         bomb.y = ship.y- ship.height/2 + bomb.height/2;
                         target._bombs.push(bomb);
                         // bomb.retain();
@@ -198,7 +226,6 @@ var GameLayer = cc.Layer.extend({
                     boom.runAction(new cc.FadeOut(1));
                     cc.audioEngine.playEffect(res.Bang_sound);
                     sub.hp--;
-                    // bomb.release();
                     cc.pool.putInPool(bomb);
                     this._bombs.splice(i,1);
                     if (sub.hp == 1) {
@@ -242,6 +269,8 @@ var GameLayer = cc.Layer.extend({
             }
         };
         for (var i = this._torpedos.length - 1; i >= 0; i--) {
+            this.ship.getBoundingBox();
+            this._torpedos[i].getBoundingBox();
             if(cc.rectIntersectsRect(this.ship.getBoundingBox(), this._torpedos[i].getBoundingBox())){
                 this.getChildByTag(this.ship.health).visible = false;
                 this.ship.health --;
@@ -333,5 +362,11 @@ var GameLayer = cc.Layer.extend({
     },
     removeLevelLabel:function(){
         this.removeChildByTag(1000);
+    },
+    clearAllArrays:function(){
+        this._bombs.length = 0;
+        this._subs.length = 0;
+        this._torpedos.length = 0;
+        this._carePackages.length = 0;
     }
 });
