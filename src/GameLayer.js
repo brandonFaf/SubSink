@@ -12,7 +12,7 @@ var GameLayer = cc.Layer.extend({
     wave:0,
     minSubs:3,
     subsToAdd:3,
-    killsTilNextLevel:1,
+    killsTilNextLevel:2,
     level:1,
     isIpad:false,
     ctor: function(){
@@ -189,6 +189,7 @@ var GameLayer = cc.Layer.extend({
 	},
     update: function(dt){
         if(this._subs.length < this.minSubs){
+            this.wave++;
             for (var i = 0; i < this.subsToAdd; i++) {
                 this.addSub();
             }
@@ -341,7 +342,7 @@ var GameLayer = cc.Layer.extend({
         }
     },
     addSub:function(){
-        var sub = Sub.grabOrCreate();
+        var sub = Sub.grabOrCreate(this.wave);
         if (Math.random()>.5) 
         {
             sub.x = -sub.width/2;
@@ -370,3 +371,7 @@ var GameLayer = cc.Layer.extend({
         this._carePackages.length = 0;
     }
 });
+
+GameLayer.getTheFreakingLevel = function(){
+    return GameLayer.level;
+}

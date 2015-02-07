@@ -23,6 +23,7 @@ var res = {
     Boom_png: folder + "BOOM.png",
     Bang_sound: "res/sound/Bang.wav",
     Torpedo_png: folder + "torpedo.png",
+    Torpedo_Big_png: folder + "torpedoBig.png",
     care_png: folder + "care.png",
     ammo_package_png: folder + "ammoPackage.png",
     health_package_png: folder + "healthPackage.png",

@@ -11,12 +11,25 @@ var res = {
     CloseNormal_png : folder + "CloseNormal.png",
     CloseSelected_png : folder + "CloseSelected.png",
     Background_png : folder + "SubBackground.png",
-    Ship_png : folder + "battleShip.png",
+    Ship_png : folder + "Ship.png",
+    Ship_icon_png : folder + "ShipIcon.png",
+    Ship_hurt_png : folder + "ShipHurt.png",
+    Ship_hurt_more_png : folder + "ShipHurtMore.png",
+    Ship_sink_png : folder + "ShipSink.png",    
     Sub_Long_png : folder + "SubLong.png",
     Sub_png : folder + "Sub.png",
+    RedSub_png : folder + "RedSub.png",
     Bomb_png : folder + "bomb.png",
     Boom_png: folder + "BOOM.png",
-    Bang_sound: "res/sound/Bang.wav"
+    Bang_sound: "res/sound/Bang.wav",
+    Torpedo_png: folder + "torpedo.png",
+    Torpedo_Big_png: folder + "torpedoBig.png",
+    care_png: folder + "care.png",
+    ammo_package_png: folder + "ammoPackage.png",
+    health_package_png: folder + "healthPackage.png",
+    smoke: folder +"smoke.png",
+    AirPlane: folder +"AirPlane.png"
+
 };
 
 var g_resources = [];

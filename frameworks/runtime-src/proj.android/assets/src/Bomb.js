@@ -10,12 +10,18 @@ var Bomb = cc.Sprite.extend({
 	update:function(dt){
 		this.y -= this.speed*dt;
 		if (this.y+this.width < 0) {
+			for(var i=0; i<this.parent._bombs.length;i++){
+				if (this.parent._bombs[i] == this) {
+					this.parent._bombs.splice(i,1);
+				};
+			}
 			cc.pool.putInPool(this);
 		};
 	},
 	unuse: function(){
 		this.visible;
 		this.removeFromParent(true);
+		
 	},
 	reuse: function(){
 		this.init();

@@ -3,5 +3,6 @@ var GameScene = cc.Scene.extend({
 		this._super();
 		this.addChild(new BackgroundLayer());
 		this.addChild(new GameLayer());
+
 	}
 });

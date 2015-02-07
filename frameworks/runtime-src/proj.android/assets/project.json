@@ -15,10 +15,20 @@
         "src/app.js",
         "src/GameLayer.js",
         "src/GameScene.js",
+        "src/MenuLayer.js",
+        "src/MenuScene.js",
         "src/BackgroundLayer.js",
         "src/Ship.js",
         "src/Sub.js",
-        "src/Bomb.js"
-                
+        "src/Bomb.js",
+        "src/Torpedo.js",
+        "src/carePackage.js",
+        "src/AmmoPackage.js",
+        "src/HealthPackage.js",
+        "src/LongSub.js",
+        "src/ShortSub.js",
+        "src/GameOverLayer.js",
+        "src/Plane.js",
+        "src/CCPool.js"
     ]
 }

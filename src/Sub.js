@@ -5,17 +5,13 @@ var Sub = cc.Sprite.extend({
 	shootTime:0,
 	torpedoSpeed:0,
 	hp:0,
+	numOfTorpedos:0,
+	leftToShoot:0,
 	ctor: function(img) {
 		this._super(img);
-		//this.init();
-	},
-	init: function(){
-		this.speed = Math.random() *100+50;
-		this.torpedoSpeed = Math.random() *30 + 30;
 		this.size = cc.winSize;
-		this.shootTime = Math.random()*2+2;
-		this.scheduleUpdate();
 
+		//this.init();
 	},
 	update: function (dt){
 		if(this.direction == "left"){
@@ -41,12 +37,21 @@ var Sub = cc.Sprite.extend({
         	torpedo.speed = this.torpedoSpeed;
         	this.parent.addChild(torpedo);
         	this.parent._torpedos.push(torpedo);
-        	this.shootTime = Math.random()*3+3;
-        };
+        	this.leftToShoot--;
+	        if(this.leftToShoot==0)
+	        {
+	        	this.shootTime = Math.random()*3+3;
+	        	this.leftToShoot = this.numOfTorpedos;
 
+	        }
+	        else{
+	        	this.shootTime = 0.5;
+	        }
+        }
 	},
 	unuse: function(){
 		this.visible;
+		this.removeAllChildren();
 		this.removeFromParent(true);
 	},
 	reuse: function(){
@@ -64,10 +69,27 @@ Sub.create = function () {
 	}
 }
 
-Sub.grabOrCreate = function() {
+Sub.grabOrCreate = function(level) {
 	var pool = cc.pool;
-	if(cc.pool.hasObject(Sub)){
-		return pool.getFromPool(Sub);
+	if (level< 3) {
+		if(cc.pool.hasObject(ShortSub)){
+			return pool.getFromPool(ShortSub);
+		}
+		return new ShortSub();
 	}
+	
+	if (Math.random()*(level+1) > 3){
+		if(cc.pool.hasObject(LongSub)){
+			return pool.getFromPool(LongSub);
+		}
+		return new LongSub();
+	}
+	else{
+		if(cc.pool.hasObject(ShortSub)){
+			return pool.getFromPool(ShortSub);
+		}
+		return new ShortSub();
+	}
+
 	return Sub.create();
 }
