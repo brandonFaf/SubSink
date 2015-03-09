@@ -1,8 +1,16 @@
 var MenuLayer = cc.Layer.extend({
 	ctor:function(){
 		this._super();
+
+		var gameVars = GameVars.getInstance();
+
 		this.size = cc.winSize;
         var size = this.size;
+
+        var settings = new cc.MenuItemImage(res.Settings, res.Settings, this.showSettings, this);
+        settings.x = settings.width;
+        settings.y = size.height-settings.height;
+
         var backBox = new cc.LayerColor(new cc.Color(231,34,0,255),size.width*2/3, size.height*4/5);
 		backBox.x = size.width/2-backBox.width/2;
 		backBox.y = size.height/2 - backBox.height/2;
@@ -13,19 +21,19 @@ var MenuLayer = cc.Layer.extend({
 		frontBox.y = size.height/2 - frontBox.height/2;
 		this.addChild(frontBox, 11);
 
-		var Title = new cc.LabelTTF("Sub Sink", "Arial", 40);
+		var Title = new cc.LabelTTF("Sub Sink", "Arial", gameVars.menuTextSize);
 		Title.x = frontBox.width/2;
 		Title.y = frontBox.height- Title.height*3/4;
 		Title.color = new cc.Color(0,0,0,255);
 		frontBox.addChild(Title,1);
 
-		var moveInst = new cc.LabelTTF("Tilt your device side to side to move your ship.", "Arial", 14);
-		var shootInst = new cc.LabelTTF("Tap the left side of the screen to shoot from the left of the ship and the \nright side to shoot from the right.", "Arial", 14);
-		var torpedoInst = new cc.LabelTTF("Don't get hit by the torpedos the enemey subs shoot at you", "Arial", 14);
-		var careInst = new cc.LabelTTF("If you run out of ammo pick up a care package, if you wait too long they sink", "Arial", 14);
-		var healthInst = new cc.LabelTTF("Watch your health, some care pacakges contain supplies to repair your ship", "Arial", 14);
-		var levelInst = new cc.LabelTTF("Reach the next level by sinking the goal amount of subs for that level", "Arial", 14);
-		var gameOverInst = new cc.LabelTTF("If you lose all your health, your ship will sink and the game is over", "Arial", 14);
+		var moveInst = new cc.LabelTTF("Tilt your device side to side to move your ship.", "Arial", gameVars.instructTextSize);
+		var shootInst = new cc.LabelTTF("Tap the left side of the screen to shoot from the left of the ship and the \nright side to shoot from the right.", "Arial", gameVars.instructTextSize);
+		var torpedoInst = new cc.LabelTTF("Don't get hit by the torpedos the enemey subs shoot at you", "Arial", gameVars.instructTextSize);
+		var careInst = new cc.LabelTTF("If you run out of ammo pick up a care package, if you wait too long they sink", "Arial", gameVars.instructTextSize);
+		var healthInst = new cc.LabelTTF("Watch your health, some care pacakges contain supplies to repair your ship", "Arial", gameVars.instructTextSize);
+		var levelInst = new cc.LabelTTF("Reach the next level by sinking the goal amount of subs for that level", "Arial", gameVars.instructTextSize);
+		var gameOverInst = new cc.LabelTTF("If you lose all your health, your ship will sink and the game is over", "Arial", gameVars.instructTextSize);
 
 		var labelArray = [moveInst, shootInst, torpedoInst, careInst, healthInst, levelInst, gameOverInst];
 		for (var i = 0; i < labelArray.length; i++) {
@@ -38,26 +46,30 @@ var MenuLayer = cc.Layer.extend({
 			frontBox.addChild(labelArray[i],1);
 		};		
 
-		var start = new cc.LabelTTF("--Tap to start--","Arial", 22);
-		start.x = frontBox.width/2;
-		start.y = frontBox.height/9;
+		var start = new cc.MenuItemFont("Play",this.play);
+		start.x = frontBox.x + frontBox.width/2;
+		start.y = frontBox.y + frontBox.height/9;
+		start.fontSize = gameVars.buttonTextSize;
+		start.fontName = "Arial";
 		start.color = new cc.Color(0,0,0,255);
-		frontBox.addChild(start);
-		var fadeOut = new cc.FadeOut(1);
-		var fadeIn = new cc.FadeIn(1);
+		var menu = new cc.Menu(settings, start);
+        menu.setPosition(cc.p(0,0));
+        this.addChild(menu,50);
+		// var fadeOut = new cc.FadeOut(1);
+		// var fadeIn = new cc.FadeIn(1);
 
-		var seq = new cc.Sequence(fadeOut,fadeIn);
+		// var seq = new cc.Sequence(fadeOut,fadeIn);
 
-		 start.runAction(new cc.RepeatForever(seq));
-		 if(cc.sys.capabilities.hasOwnProperty('touches')){
-	        cc.eventManager.addListener({
-	        	event: cc.EventListener.TOUCH_ONE_BY_ONE,
-	        	onTouchBegan: function (touch, event){
-	        		cc.director.runScene(new GameScene());
-                    return true;
-				}        	
-	        }, this);
-	    }
+		//  start.runAction(new cc.RepeatForever(seq));
+		 // if(cc.sys.capabilities.hasOwnProperty('touches')){
+	  //       cc.eventManager.addListener({
+	  //       	event: cc.EventListener.TOUCH_ONE_BY_ONE,
+	  //       	onTouchBegan: function (touch, event){
+	  //       		cc.director.runScene(new GameScene());
+   //                  return true;
+			// 	}        	
+	  //       }, this);
+	  //   }
 	    if(cc.sys.capabilities.hasOwnProperty('keyboard') && !cc.sys.isMobile){
             cc.eventManager.addListener(
             {
@@ -69,5 +81,11 @@ var MenuLayer = cc.Layer.extend({
             },this);
 
         }
+	},
+	play:function(){
+		cc.director.runScene(new GameScene());
+	},
+	showSettings:function(){
+		cc.director.pushScene(new SettingsScene());
 	}
 });

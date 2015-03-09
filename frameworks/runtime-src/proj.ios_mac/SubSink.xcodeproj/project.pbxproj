@@ -47,6 +47,25 @@
 		509D4AE717EBB81800697056 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509D4AE617EBB81800697056 /* OpenGL.framework */; };
 		509D4AE917EBB82000697056 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509D4AE817EBB82000697056 /* AppKit.framework */; };
 		509D4AEB17EBB82600697056 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509D4AEA17EBB82600697056 /* IOKit.framework */; };
+		7F8BC8E51AA3D21000A11EF6 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F8BC8E41AA3D21000A11EF6 /* GameKit.framework */; };
+		7F8BC8E71AA3FD9000A11EF6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8E61AA3FD9000A11EF6 /* Images.xcassets */; };
+		7F8BC8F11AA5387200A11EF6 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8EA1AA5387200A11EF6 /* Icon-60.png */; };
+		7F8BC8F21AA5387200A11EF6 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8EB1AA5387200A11EF6 /* Icon-72.png */; };
+		7F8BC8F31AA5387200A11EF6 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8EC1AA5387200A11EF6 /* Icon-72@2x.png */; };
+		7F8BC8F41AA5387200A11EF6 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8ED1AA5387200A11EF6 /* Icon-Small-50.png */; };
+		7F8BC8F51AA5387200A11EF6 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8EE1AA5387200A11EF6 /* Icon-Small-50@2x.png */; };
+		7F8BC8F61AA5387200A11EF6 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8EF1AA5387200A11EF6 /* Icon.png */; };
+		7F8BC8F71AA5387200A11EF6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8F01AA5387200A11EF6 /* Icon@2x.png */; };
+		7F8BC9021AA5388000A11EF6 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8F81AA5388000A11EF6 /* Icon-40.png */; };
+		7F8BC9031AA5388000A11EF6 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8F91AA5388000A11EF6 /* Icon-40@2x.png */; };
+		7F8BC9041AA5388000A11EF6 /* Icon-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8FA1AA5388000A11EF6 /* Icon-40@3x.png */; };
+		7F8BC9051AA5388000A11EF6 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8FB1AA5388000A11EF6 /* Icon-60@2x.png */; };
+		7F8BC9061AA5388000A11EF6 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8FC1AA5388000A11EF6 /* Icon-60@3x.png */; };
+		7F8BC9071AA5388000A11EF6 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8FD1AA5388000A11EF6 /* Icon-76.png */; };
+		7F8BC9081AA5388000A11EF6 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8FE1AA5388000A11EF6 /* Icon-76@2x.png */; };
+		7F8BC9091AA5388000A11EF6 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8FF1AA5388000A11EF6 /* Icon-Small.png */; };
+		7F8BC90A1AA5388000A11EF6 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC9001AA5388000A11EF6 /* Icon-Small@2x.png */; };
+		7F8BC90B1AA5388000A11EF6 /* Icon-Small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC9011AA5388000A11EF6 /* Icon-Small@3x.png */; };
 		A92275421517C094001B78AA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275411517C094001B78AA /* QuartzCore.framework */; };
 		A92275441517C094001B78AA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275431517C094001B78AA /* OpenGLES.framework */; };
 		A92275461517C094001B78AA /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275451517C094001B78AA /* OpenAL.framework */; };
@@ -166,6 +185,25 @@
 		509D4AE617EBB81800697056 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		509D4AE817EBB82000697056 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		509D4AEA17EBB82600697056 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		7F8BC8E41AA3D21000A11EF6 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/GameKit.framework; sourceTree = DEVELOPER_DIR; };
+		7F8BC8E61AA3FD9000A11EF6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "SubSink iOS/Images.xcassets"; sourceTree = "<group>"; };
+		7F8BC8EA1AA5387200A11EF6 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
+		7F8BC8EB1AA5387200A11EF6 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		7F8BC8EC1AA5387200A11EF6 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		7F8BC8ED1AA5387200A11EF6 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		7F8BC8EE1AA5387200A11EF6 /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
+		7F8BC8EF1AA5387200A11EF6 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		7F8BC8F01AA5387200A11EF6 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		7F8BC8F81AA5388000A11EF6 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
+		7F8BC8F91AA5388000A11EF6 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
+		7F8BC8FA1AA5388000A11EF6 /* Icon-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@3x.png"; sourceTree = "<group>"; };
+		7F8BC8FB1AA5388000A11EF6 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
+		7F8BC8FC1AA5388000A11EF6 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
+		7F8BC8FD1AA5388000A11EF6 /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		7F8BC8FE1AA5388000A11EF6 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
+		7F8BC8FF1AA5388000A11EF6 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		7F8BC9001AA5388000A11EF6 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		7F8BC9011AA5388000A11EF6 /* Icon-Small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@3x.png"; sourceTree = "<group>"; };
 		A922753D1517C094001B78AA /* SubSink iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SubSink iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A92275411517C094001B78AA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A92275431517C094001B78AA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -223,6 +261,7 @@
 				A92275421517C094001B78AA /* QuartzCore.framework in Frameworks */,
 				A92275441517C094001B78AA /* OpenGLES.framework in Frameworks */,
 				A92275461517C094001B78AA /* OpenAL.framework in Frameworks */,
+				7F8BC8E51AA3D21000A11EF6 /* GameKit.framework in Frameworks */,
 				A92275481517C094001B78AA /* AudioToolbox.framework in Frameworks */,
 				A922754A1517C094001B78AA /* AVFoundation.framework in Frameworks */,
 				A922754C1517C094001B78AA /* UIKit.framework in Frameworks */,
@@ -237,6 +276,7 @@
 		15628F5B15F0F5C2000CF24B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7F8BC8E61AA3FD9000A11EF6 /* Images.xcassets */,
 				1A1A081B18C9DF05005C6854 /* project.json */,
 				1A6BF21418C9DB5900FB0E1C /* main.js */,
 				C0799CB518BAE62000E9C828 /* res */,
@@ -257,6 +297,26 @@
 		5091732E17ECDF8A00D62437 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7F8BC8E91AA5384E00A11EF6 /* myIcons */,
+				7F8BC8E81AA5383A00A11EF6 /* cocosIcons */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		509D4ACA17EBB2BE00697056 /* mac */ = {
+			isa = PBXGroup;
+			children = (
+				C06E23CB18CEFE680093C81A /* main.cpp */,
+				509D4ACB17EBB2BE00697056 /* Icon.icns */,
+				509D4ACC17EBB2BE00697056 /* Info.plist */,
+				509D4ACE17EBB2BE00697056 /* Prefix.pch */,
+			);
+			path = mac;
+			sourceTree = "<group>";
+		};
+		7F8BC8E81AA5383A00A11EF6 /* cocosIcons */ = {
+			isa = PBXGroup;
+			children = (
 				5091731417ECDF7A00D62437 /* Icon-29.png */,
 				5091731517ECDF7A00D62437 /* Icon-40.png */,
 				5091731617ECDF7A00D62437 /* Icon-50.png */,
@@ -271,18 +331,31 @@
 				509D4AB517EBB2AB00697056 /* Icon-144.png */,
 				509D4AB617EBB2AB00697056 /* Icon-152.png */,
 			);
-			name = Icons;
+			name = cocosIcons;
 			sourceTree = "<group>";
 		};
-		509D4ACA17EBB2BE00697056 /* mac */ = {
+		7F8BC8E91AA5384E00A11EF6 /* myIcons */ = {
 			isa = PBXGroup;
 			children = (
-				C06E23CB18CEFE680093C81A /* main.cpp */,
-				509D4ACB17EBB2BE00697056 /* Icon.icns */,
-				509D4ACC17EBB2BE00697056 /* Info.plist */,
-				509D4ACE17EBB2BE00697056 /* Prefix.pch */,
+				7F8BC8F81AA5388000A11EF6 /* Icon-40.png */,
+				7F8BC8F91AA5388000A11EF6 /* Icon-40@2x.png */,
+				7F8BC8FA1AA5388000A11EF6 /* Icon-40@3x.png */,
+				7F8BC8FB1AA5388000A11EF6 /* Icon-60@2x.png */,
+				7F8BC8FC1AA5388000A11EF6 /* Icon-60@3x.png */,
+				7F8BC8FD1AA5388000A11EF6 /* Icon-76.png */,
+				7F8BC8FE1AA5388000A11EF6 /* Icon-76@2x.png */,
+				7F8BC8FF1AA5388000A11EF6 /* Icon-Small.png */,
+				7F8BC9001AA5388000A11EF6 /* Icon-Small@2x.png */,
+				7F8BC9011AA5388000A11EF6 /* Icon-Small@3x.png */,
+				7F8BC8EA1AA5387200A11EF6 /* Icon-60.png */,
+				7F8BC8EB1AA5387200A11EF6 /* Icon-72.png */,
+				7F8BC8EC1AA5387200A11EF6 /* Icon-72@2x.png */,
+				7F8BC8ED1AA5387200A11EF6 /* Icon-Small-50.png */,
+				7F8BC8EE1AA5387200A11EF6 /* Icon-Small-50@2x.png */,
+				7F8BC8EF1AA5387200A11EF6 /* Icon.png */,
+				7F8BC8F01AA5387200A11EF6 /* Icon@2x.png */,
 			);
-			path = mac;
+			name = myIcons;
 			sourceTree = "<group>";
 		};
 		A92275321517C094001B78AA = {
@@ -312,6 +385,7 @@
 		A92275401517C094001B78AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7F8BC8E41AA3D21000A11EF6 /* GameKit.framework */,
 				BA4E718219EB6E4600932425 /* GameController.framework */,
 				BA4E718019EB6E3E00932425 /* MediaPlayer.framework */,
 				D6B061231803AB9F0077942B /* CoreMotion.framework */,
@@ -422,6 +496,11 @@
 				TargetAttributes = {
 					A922753C1517C094001B78AA = {
 						DevelopmentTeam = BHH5UAGV5G;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -502,26 +581,44 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F8BC8F51AA5387200A11EF6 /* Icon-Small-50@2x.png in Resources */,
+				7F8BC8F71AA5387200A11EF6 /* Icon@2x.png in Resources */,
 				BAF426FB19484B3E002B22EF /* script in Resources */,
 				1AE159EC18C9DF3600FCA372 /* project.json in Resources */,
 				1AD7E0A818C9DB93004817A6 /* main.js in Resources */,
 				509D4ABE17EBB2AB00697056 /* Default.png in Resources */,
+				7F8BC9041AA5388000A11EF6 /* Icon-40@3x.png in Resources */,
 				5091731E17ECDF7A00D62437 /* Icon-80.png in Resources */,
+				7F8BC8F21AA5387200A11EF6 /* Icon-72.png in Resources */,
 				5091731F17ECDF7A00D62437 /* Icon-100.png in Resources */,
+				7F8BC9081AA5388000A11EF6 /* Icon-76@2x.png in Resources */,
+				7F8BC8F31AA5387200A11EF6 /* Icon-72@2x.png in Resources */,
 				509D4AC117EBB2AB00697056 /* Icon-72.png in Resources */,
 				509D4AC017EBB2AB00697056 /* Icon-57.png in Resources */,
 				5091731A17ECDF7A00D62437 /* Icon-29.png in Resources */,
+				7F8BC9091AA5388000A11EF6 /* Icon-Small.png in Resources */,
+				7F8BC8F61AA5387200A11EF6 /* Icon.png in Resources */,
+				7F8BC9021AA5388000A11EF6 /* Icon-40.png in Resources */,
 				C03780EB18BEE0E400FE4F13 /* src in Resources */,
+				7F8BC9071AA5388000A11EF6 /* Icon-76.png in Resources */,
 				509D4AC617EBB2AB00697056 /* Icon-152.png in Resources */,
+				7F8BC90A1AA5388000A11EF6 /* Icon-Small@2x.png in Resources */,
 				C0799CB918BAE62000E9C828 /* res in Resources */,
 				509D4AC517EBB2AB00697056 /* Icon-144.png in Resources */,
+				7F8BC8F11AA5387200A11EF6 /* Icon-60.png in Resources */,
 				509D4AC317EBB2AB00697056 /* Icon-114.png in Resources */,
 				509D4ABD17EBB2AB00697056 /* Default-568h@2x.png in Resources */,
+				7F8BC90B1AA5388000A11EF6 /* Icon-Small@3x.png in Resources */,
+				7F8BC8E71AA3FD9000A11EF6 /* Images.xcassets in Resources */,
 				509D4ABF17EBB2AB00697056 /* Default@2x.png in Resources */,
 				509D4AC217EBB2AB00697056 /* Icon-76.png in Resources */,
+				7F8BC9051AA5388000A11EF6 /* Icon-60@2x.png in Resources */,
+				7F8BC8F41AA5387200A11EF6 /* Icon-Small-50.png in Resources */,
 				5091731B17ECDF7A00D62437 /* Icon-40.png in Resources */,
+				7F8BC9031AA5388000A11EF6 /* Icon-40@2x.png in Resources */,
 				5091731C17ECDF7A00D62437 /* Icon-50.png in Resources */,
 				509D4AC417EBB2AB00697056 /* Icon-120.png in Resources */,
+				7F8BC9061AA5388000A11EF6 /* Icon-60@3x.png in Resources */,
 				5091731D17ECDF7A00D62437 /* Icon-58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,7 +772,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -688,9 +788,10 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/platform/ios $(SRCROOT)/../../js-bindings/external/spidermonkey/include/ios $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/auto $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/manual";
@@ -702,7 +803,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -714,9 +818,10 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/platform/ios $(SRCROOT)/../../js-bindings/external/spidermonkey/include/ios $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/auto $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/manual";

@@ -28,7 +28,9 @@ var res = {
     ammo_package_png: folder + "ammoPackage.png",
     health_package_png: folder + "healthPackage.png",
     smoke: folder +"smoke.png",
-    AirPlane: folder +"AirPlane.png"
+    AirPlane: folder +"AirPlane.png",
+    Settings: folder +"Cog.png",
+    Arrow: folder +"Arrow.png"
 
 };
 

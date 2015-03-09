@@ -7,7 +7,7 @@ var ShortSub = Sub.extend({
 		this.speed = Math.random() *100+100;
 		this.torpedoSpeed = Math.random() *30 + 50;
 		this.hp = 1;
-		this.shootTime = Math.random()*2+2;
+		this.shootTime = Math.random()*2+1;
  		this.numOfTorpedos = 1;
  		this.leftToShoot = this.numOfTorpedos;
 		this.scheduleUpdate();

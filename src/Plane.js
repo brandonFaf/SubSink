@@ -18,7 +18,7 @@ var Plane = cc.Sprite.extend({
             this.x = this.size.width+this.width/2;
             this.dest = -this.width/2;
         }
-        if(this.isIpad){
+        if(isIpad){
        		this.y = (this.size.height*2/3)+(this.size.height/6);
     	}
     	else{

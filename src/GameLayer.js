@@ -15,22 +15,22 @@ var GameLayer = cc.Layer.extend({
     killsTilNextLevel:2,
     level:1,
     isIpad:false,
+    gameVars: null,
     ctor: function(){
 		this._super();
-		
+
+        this.gameVars = GameVars.getInstance();
+
 		//get WinSize
 		this.size = cc.winSize;
         var size = this.size;
-        if(size.height > 640){
-            this.isIpad = true;
-        }
         this.clearAllArrays();
-        this.scoreLabel = new cc.LabelTTF("Score: " + this.score, "Arial", 16);
-        this.scoreLabel.setPosition(cc.p(this.scoreLabel.width,size.height-this.scoreLabel.height));
+        this.scoreLabel = new cc.LabelTTF("Score: " + this.score, "Arial", this.gameVars.hudTextSize);
+        this.scoreLabel.setPosition(cc.p(this.scoreLabel.width*3/4,size.height-this.scoreLabel.height));
         this.addChild(this.scoreLabel, 2);
 
-        this.killsLabel = new cc.LabelTTF("Next Level: " + this.killsTilNextLevel, "Arial", 16);
-        this.killsLabel.setPosition(cc.p(this.scoreLabel.width,this.scoreLabel.y-this.killsLabel.height));
+        this.killsLabel = new cc.LabelTTF("Next Level: " + this.killsTilNextLevel, "Arial", this.gameVars.hudTextSize);
+        this.killsLabel.setPosition(cc.p(this.killsLabel.width/2 + this.scoreLabel.width/4,this.scoreLabel.y-this.killsLabel.height));
         this.addChild(this.killsLabel, 2);
 
         this.carePackageTime = 1;//Math.random() *5+5;
@@ -38,12 +38,9 @@ var GameLayer = cc.Layer.extend({
 		//set the starting position of the this.ship
         this.ship = new Ship();
         this.ship.x = size.width/2;
-        if (this.isIpad) {
-            this.ship.y = size.height - size.height/3+ this.ship.height/2-this.ship.height/20;
-        }
-        else{
-            this.ship.y = size.height - size.height/6+ this.ship.height/2-this.ship.height/20;            
-        }
+        this.ship.y = this.gameVars.waterHeight + this.ship.height/2-this.ship.height/20;
+        
+        
         this.ship.ammo = 5;
         this.ship.health = 5;
         this.ship.maxHealth = 5;
@@ -61,7 +58,7 @@ var GameLayer = cc.Layer.extend({
             this.addChild(hp, 10);
         }
 
-        this.ammoLabel = new cc.LabelTTF("Ammo: " + this.ship.ammo, "Arial", 16);
+        this.ammoLabel = new cc.LabelTTF("Ammo: " + this.ship.ammo, "Arial", this.gameVars.hudTextSize);
         this.ammoLabel.setPosition(cc.p(size.width - this.ammoLabel.width,size.height-this.ammoLabel.height));
         this.addChild(this.ammoLabel, 2);
 
@@ -81,16 +78,16 @@ var GameLayer = cc.Layer.extend({
                         }
                     };
                     if (key == 13) {
-                        // ship.health--;
-                        // if (ship.health == 0) {
-                        //     ship.y-=ship.height/2;
-                        //     ship.scheduleUpdate();
-                        //     ship.release();
-                        //     target.unscheduleUpdate();
-                        //     cc.eventManager.removeAllListeners();
-                        //     target.clearAllArrays();
-                        //     target.addChild(new GameOverLayer(), 1000);
-                        // }
+                        ship.health--;
+                        if (ship.health == 0) {
+                            ship.y-=ship.height/2;
+                            ship.scheduleUpdate();
+                            ship.release();
+                            target.unscheduleUpdate();
+                            cc.eventManager.removeAllListeners();
+                            target.clearAllArrays();
+                            target.addChild(new GameOverLayer(target.score), 1000);
+                        }
                     };
                     if (key == 39) {
                         //moveRight
@@ -128,7 +125,14 @@ var GameLayer = cc.Layer.extend({
                 //  Processing logic here
                 var ship = event.getCurrentTarget().ship
                 var accel = acc.x - (acc.x *.5) ;
-                ship.x = ship.x + (accel * size.width * .07);
+                var move = accel * size.width * .07;
+                if(move>4){
+                    move = 4;
+                }
+                if(move< -4){
+                    move = -4;
+                }
+                ship.x = ship.x + move;
                 if (ship.x - ship.width/2 <= 0){
                     ship.x = ship.width/2 ;
                 }
@@ -151,16 +155,16 @@ var GameLayer = cc.Layer.extend({
                     var target = event.getCurrentTarget();
                     var ship = target.ship;
                     if (touch.getLocation().y > size.height*2/3) {
-                        // ship.health--;
-                        // if (ship.health == 0) {
-                        //     ship.y-=ship.height/2;
-                        //     ship.scheduleUpdate();
-                        //     ship.release();
-                        //     target.unscheduleUpdate();
-                        //     cc.eventManager.removeAllListeners();
-                        //     target.clearAllArrays();
-                        //     target.addChild(new GameOverLayer(), 1000);
-                        // }
+//                        ship.health--;
+//                        if (ship.health == 0) {
+//                            ship.y-=ship.height/2;
+//                            ship.scheduleUpdate();
+//                            ship.release();
+//                            target.unscheduleUpdate();
+//                            cc.eventManager.removeAllListeners();
+//                            target.clearAllArrays();
+//                            target.addChild(new GameOverLayer(target.score), 1000);
+//                        }
                         return true;
                     };
 
@@ -289,7 +293,9 @@ var GameLayer = cc.Layer.extend({
                 this.ship.release();
                 this.unscheduleUpdate();
                 cc.eventManager.removeAllListeners();
-                this.addChild(new GameOverLayer(), 1000);
+                this.scheduleOnce(function(){
+                    this.addChild(new GameOverLayer(this.score), 1000);
+                }, 2)
                 return;
             };
         };
@@ -350,13 +356,14 @@ var GameLayer = cc.Layer.extend({
         else{
             sub.x = this.size.width+sub.width/2;
         }
-        if(this.isIpad){
-            sub.y = Math.random()*(this.size.height*2/3- sub.height);
+        
+        if (this.level <= 3) {
+            sub.y = Math.random()*(this.gameVars.waterHeight- sub.height-((1/(this.level+1))*this.gameVars.waterHeight))+((1/(this.level+1))*this.gameVars.waterHeight);
         }
-        else
-        {
-            sub.y = Math.random()*(this.size.height*5/6- sub.height);
-        }
+        else{
+            sub.y = Math.random()*(this.gameVars.waterHeight - sub.height)  
+        }       
+        
         this.addChild(sub, 1000);
         this._subs.push(sub);
     
@@ -364,7 +371,7 @@ var GameLayer = cc.Layer.extend({
     removeLevelLabel:function(){
         this.removeChildByTag(1000);
     },
-    clearAllArrays:function(){
+    clearAllArrays:function(    ){
         this._bombs.length = 0;
         this._subs.length = 0;
         this._torpedos.length = 0;

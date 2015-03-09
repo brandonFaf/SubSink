@@ -49,19 +49,34 @@
 
 cc.game.onStart = function(){
     cc.view.adjustViewPort(true);
+    var isIpad = false;
+    var isRetna = false;
+
     if (cc.sys.isNative)
     {
         var searchPaths = jsb.fileUtils.getSearchPaths();
-        
         var winSize = cc.director.getWinSize();
-        if(winSize.width == 960){
-            cc.view.setDesignResolutionSize(960, 640, cc.ResolutionPolicy.EXACT_FIT);
-            searchPaths.push("res/small/");
+        if(winSize.width == 2048){
+            cc.view.setDesignResolutionSize(2048, 1536, cc.ResolutionPolicy.EXACT_FIT);
+            searchPaths.push("res/extraLarge/");
             searchPaths.push("src");
+            isIpad = true;
+            isRetna = true;
         }
-        else if(winSize.height > 640){
+        else if(winSize.width == 1024){
             cc.view.setDesignResolutionSize(1024, 768, cc.ResolutionPolicy.EXACT_FIT);
             searchPaths.push("res/large/");
+            searchPaths.push("src");
+            isIpad = true;
+        }
+        else if(winSize.width == 1136){
+            cc.view.setDesignResolutionSize(800, 450, cc.ResolutionPolicy.EXACT_FIT);
+            searchPaths.push("res/medium/");
+            searchPaths.push("src");
+        }
+        else if(winSize.width == 960){
+            cc.view.setDesignResolutionSize(960, 640, cc.ResolutionPolicy.EXACT_FIT);
+            searchPaths.push("res/small/");
             searchPaths.push("src");
         }
         else{
@@ -73,11 +88,12 @@ cc.game.onStart = function(){
     }
     else
     {
+
         cc.view.setDesignResolutionSize(800, 450, cc.ResolutionPolicy.SHOW_ALL);
         cc.view.resizeWithBrowserSize(true);
     }
-    
-    
+    GameVars.getInstance(isIpad, isRetna);
+
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
 //                           cc.director.runScene(new MenuScene());

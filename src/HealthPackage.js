@@ -1,6 +1,5 @@
 var healthPackage = carePackage.extend({
 	ctor: function(){
-		this.size = cc.winSize;
 		this._super();
 		this.pack = new cc.Sprite(res.health_package_png);
 		this.pack.x = 0;
