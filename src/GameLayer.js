@@ -29,17 +29,16 @@ var GameLayer = cc.Layer.extend({
         this.scoreLabel.setPosition(cc.p(this.scoreLabel.width*3/4,size.height-this.scoreLabel.height));
         this.addChild(this.scoreLabel, 2);
 
-        this.killsLabel = new cc.LabelTTF("Next Level: " + this.killsTilNextLevel, "Arial", this.gameVars.hudTextSize);
-        this.killsLabel.setPosition(cc.p(this.killsLabel.width/2 + this.scoreLabel.width/4,this.scoreLabel.y-this.killsLabel.height));
-        this.addChild(this.killsLabel, 2);
+        this.levelLabel = new cc.LabelTTF("Level: " + this.level, "Arial", this.gameVars.hudTextSize);
+        this.levelLabel.setPosition(cc.p(this.levelLabel.width/2 + this.scoreLabel.width/4,this.scoreLabel.y-this.levelLabel.height));
+        this.addChild(this.levelLabel, 2);
 
-        this.carePackageTime = 1;//Math.random() *5+5;
+        this.carePackageTime = Math.random() *5+5;
 
 		//set the starting position of the this.ship
         this.ship = new Ship();
         this.ship.x = size.width/2;
         this.ship.y = this.gameVars.waterHeight + this.ship.height/2-this.ship.height/20;
-        
         
         this.ship.ammo = 5;
         this.ship.health = 5;
@@ -131,6 +130,9 @@ var GameLayer = cc.Layer.extend({
                 }
                 if(move< -4){
                     move = -4;
+                }
+                if(Math.abs(move)<0.5){
+                    move = 0;
                 }
                 ship.x = ship.x + move;
                 if (ship.x - ship.width/2 <= 0){
@@ -243,11 +245,16 @@ var GameLayer = cc.Layer.extend({
                         sub.addChild(emmiter,-10);
                     }
                     else if(sub.hp == 0){
+                        var pointsLabel = new cc.LabelTTF("+"+sub.points, "Arial", this.gameVars.subPointsSize);
+                        pointsLabel.setPosition(sub.getPosition()); 
+                        this.addChild(pointsLabel,1000);
+                        pointsLabel.runAction(new cc.MoveBy(1.2,cc.p(10,10)));
+                        pointsLabel.runAction(new cc.Sequence(new cc.FadeOut(1.2), new cc.CallFunc(this.removeChild, this, pointsLabel)));
+                        this.score+= sub.points;
                         cc.pool.putInPool(sub);
                         this._subs.splice(j,1);
-                        this.score++;
                         this.killsTilNextLevel--;
-                        this.killsLabel.setString("Next Level: "+ this.killsTilNextLevel);            
+                        this.levelLabel.setString("Next Level: "+ this.killsTilNextLevel);            
                         this.scoreLabel.setString("Score: "+ this.score);    
                     }
                 };
@@ -264,8 +271,8 @@ var GameLayer = cc.Layer.extend({
             levelUp.runAction(new cc.FadeIn(1.2));
             levelUp.tag = 1000;
             levelUp.runAction(new cc.Sequence(new cc.ScaleTo(1.2,2),new cc.CallFunc(this.removeChild, this, levelUp)))
-            this.killsTilNextLevel = this.level *2;
-            this.killsLabel.setString("Next Level: "+ this.killsTilNextLevel);            
+            this.killsTilNextLevel = Math.ceil(this.level *2.5);
+            this.levelLabel.setString("Next Level: "+ this.killsTilNextLevel);            
             if (this.level % 2 == 0) {
                 this.subsToAdd++;
             }
@@ -277,7 +284,16 @@ var GameLayer = cc.Layer.extend({
             this.ship.getBoundingBox();
             this._torpedos[i].getBoundingBox();
             if(cc.rectIntersectsRect(this.ship.getBoundingBox(), this._torpedos[i].getBoundingBox())){
-                this.getChildByTag(this.ship.health).visible = false;
+                for(var h = 1; h<=this.ship.maxHealth; h++){
+                    if (h<this.ship.health) {
+                        this.getChildByTag(this.ship.health).visible = true;
+                    }
+                    else{
+                        this.getChildByTag(this.ship.health).visible = false;
+                    }
+                }
+                cc.audioEngine.playEffect(res.ShipBoom);
+
                 this.ship.health --;
                 this._torpedos.splice(i,1);
                 this.ship.checkShipHealth()
@@ -289,6 +305,7 @@ var GameLayer = cc.Layer.extend({
                 //this.ship.emmiter.life = 2;
                 //this.ship.emmiter.emmisionRate = 25;
                 this.ship.y-=this.ship.height/2;
+                cc.audioEngine.playEffect(res.ShipSink);
                 this.ship.scheduleUpdate();
                 this.ship.release();
                 this.unscheduleUpdate();
@@ -364,6 +381,10 @@ var GameLayer = cc.Layer.extend({
             sub.y = Math.random()*(this.gameVars.waterHeight - sub.height)  
         }       
         
+        if(sub.y < this.gameVars.waterHeight*2/5){
+            sub.points++;
+        }
+
         this.addChild(sub, 1000);
         this._subs.push(sub);
     

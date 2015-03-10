@@ -20,7 +20,7 @@ var res = {
     Sub_png : folder + "Sub.png",
     RedSub_png : folder + "RedSub.png",
     Bomb_png : folder + "bomb.png",
-    Boom_png: folder + "BOOM.png",
+    Boom_png: folder + "BANG.png",
     Bang_sound: "res/sound/Bang.wav",
     Torpedo_png: folder + "torpedo.png",
     Torpedo_Big_png: folder + "torpedoBig.png",
@@ -30,7 +30,10 @@ var res = {
     smoke: folder +"smoke.png",
     AirPlane: folder +"AirPlane.png",
     Settings: folder +"Cog.png",
-    Arrow: folder +"Arrow.png"
+    Arrow: folder +"Arrow.png",
+    ShipSink: "res/sound/ShipSink.wav",
+    ShipBoom: "res/sound/ShipBoom.wav"
+
 
 };
 

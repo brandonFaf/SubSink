@@ -17,7 +17,9 @@ var GameVars = (function () {
 				gameOverTitleSize:50*muiltiplier,
 				gameOverLabelSize:40*muiltiplier,
 				GOButtonRatio:1/10,
-				GOButtonTextSize:30*muiltiplier
+				GOButtonTextSize:30*muiltiplier,
+                subPointsSize:26*muiltiplier,
+                levelSize:50*muiltiplier
 
 
 	        };
@@ -35,7 +37,9 @@ var GameVars = (function () {
 				gameOverTitleSize:35,
 				gameOverLabelSize:25,
 				GOButtonRatio:1/10,
-				GOButtonTextSize:20
+				GOButtonTextSize:20,
+                subPointsSize:22,
+                levelSize:30*muiltiplier
         	};
         	return object;
     	}
