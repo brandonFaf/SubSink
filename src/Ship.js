@@ -9,6 +9,7 @@ var Ship = cc.Sprite.extend({
 		this._super(res.Ship_png);
 		this.longBox = new cc.rect(0,0, this.width, this.height/2);
 		this.tallBox = new cc.rect(this.width/5,0,this.width/2,this.height*2/3);
+		this._name = "Ship";
 	},
 	update: function(dt){
 		this.y -= dt*20;

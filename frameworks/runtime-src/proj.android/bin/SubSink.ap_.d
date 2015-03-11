@@ -23,6 +23,7 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/AirPlane.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/ammoPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/Arrow.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/BANG.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/battleShip.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/bomb.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/BOOM.png \
@@ -47,6 +48,7 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/AirPlane.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/ammoPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/Arrow.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/BANG.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/battleShip.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/bomb.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/BOOM.png \
@@ -71,6 +73,7 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/AirPlane.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/ammoPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/Arrow.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/BANG.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/battleShip.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/bomb.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/BOOM.png \
@@ -96,6 +99,7 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/AirPlane.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/ammoPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/Arrow.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/BANG.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/battleShip.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/bomb.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/BOOM.png \
@@ -118,6 +122,9 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/SubLong.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/torpedo.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/Bang.wav \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/shipBoom.wav \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/ShipBoomEcho.wav \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/ShipSink.wav \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/script/ccui \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/script/chipmunk \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/script/debugger \

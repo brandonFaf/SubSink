@@ -16,6 +16,7 @@ var GameLayer = cc.Layer.extend({
     level:1,
     isIpad:false,
     gameVars: null,
+    isPause:false,
     ctor: function(){
 		this._super();
 
@@ -27,11 +28,11 @@ var GameLayer = cc.Layer.extend({
         this.clearAllArrays();
         this.scoreLabel = new cc.LabelTTF("Score: " + this.score, "Arial", this.gameVars.hudTextSize);
         this.scoreLabel.setPosition(cc.p(this.scoreLabel.width*3/4,size.height-this.scoreLabel.height));
-        this.addChild(this.scoreLabel, 2);
+        this.addChild(this.scoreLabel, 20);
 
         this.levelLabel = new cc.LabelTTF("Level: " + this.level, "Arial", this.gameVars.hudTextSize);
         this.levelLabel.setPosition(cc.p(this.levelLabel.width/2 + this.scoreLabel.width/4,this.scoreLabel.y-this.levelLabel.height));
-        this.addChild(this.levelLabel, 2);
+        this.addChild(this.levelLabel, 20);
 
         this.carePackageTime = Math.random() *5+5;
 
@@ -54,143 +55,25 @@ var GameLayer = cc.Layer.extend({
             var hp = new cc.Sprite(res.Ship_icon_png);
             hp.setPosition(this.scoreLabel.x+this.scoreLabel.width+size.width/90+(i*hp.width) + (size.width/90*i), this.scoreLabel.y);
             hp.tag = i+1;
-            this.addChild(hp, 10);
+            this.addChild(hp, 20);
         }
+
+
+        this.pauseLabel = new cc.LabelTTF("PAUSE","Arial",this.gameVars.hudTextSize);
+        this.pauseLabel.setPosition(cc.p(size.width - this.pauseLabel.width*2/3,size.height-this.pauseLabel.height));
+        this.addChild(this.pauseLabel,20);
+
+        this.pauseLayer = new cc.LayerColor(new cc.Color(229, 16, 29,255),this.pauseLabel.width*5/4,this.pauseLabel.height*5/4);
+        this.pauseLayer.setPosition(cc.p(this.pauseLabel.x-this.pauseLayer.width/2, this.pauseLabel.y-this.pauseLayer.height/2));
+        this.addChild(this.pauseLayer,19);
 
         this.ammoLabel = new cc.LabelTTF("Ammo: " + this.ship.ammo, "Arial", this.gameVars.hudTextSize);
-        this.ammoLabel.setPosition(cc.p(size.width - this.ammoLabel.width,size.height-this.ammoLabel.height));
-        this.addChild(this.ammoLabel, 2);
-
-        if(cc.sys.capabilities.hasOwnProperty('keyboard') && !cc.sys.isMobile){
-            cc.eventManager.addListener(
-            {
-                event: cc.EventListener.KEYBOARD,
-                onKeyPressed: function(key, event){
-                    var target = event.getCurrentTarget();
-                    var ship = target.ship;
-                    cc.log(key.toString())
-                    if (key == 37) {
-                        //moveLeft
-                        ship.x -= 10;
-                        if (ship.x - ship.width/2 <= 0){
-                            ship.x = ship.width/2 ;
-                        }
-                    };
-                    if (key == 13) {
-                        ship.health--;
-                        if (ship.health == 0) {
-                            ship.y-=ship.height/2;
-                            ship.scheduleUpdate();
-                            ship.release();
-                            target.unscheduleUpdate();
-                            cc.eventManager.removeAllListeners();
-                            target.clearAllArrays();
-                            target.addChild(new GameOverLayer(target.score), 1000);
-                        }
-                    };
-                    if (key == 39) {
-                        //moveRight
-                        ship.x+=10;
-                        if ( ship.x + ship.width/2 >= size.width){
-                            ship.x = size.width - ship.width/2;
-                        }
-                    };
-                    if (key ==32) {
-                        
-                        if(ship.ammo > 0){
-                            var bomb = Bomb.grabOrCreate();
-                            bomb.x = ship.x;
-                            bomb.y = ship.y- bomb.height/2;
-                            target._bombs.push(bomb);
-                            target.addChild(bomb, 9);
-                            target.ship.ammo--;
-                            target.ammoLabel.setString("Ammo: " + target.ship.ammo);
-                        }
-                        return true;
-                    };
-                }
-            }, this);
-        }
-        //Set Up Accelerometer
-		else  if(cc.sys.capabilities.hasOwnProperty('accelerometer')){
-       		cc.inputManager.setAccelerometerInterval(1/60);
-   			cc.inputManager.setAccelerometerEnabled(true);
-                                
-		}
-
-        this.accelListener = cc.EventListener.create({
-            event: cc.EventListener.ACCELERATION,
-            callback: function(acc, event){
-                //  Processing logic here
-                var ship = event.getCurrentTarget().ship
-                var accel = acc.x - (acc.x *.5) ;
-                var move = accel * size.width * .07;
-                if(move>4){
-                    move = 4;
-                }
-                if(move< -4){
-                    move = -4;
-                }
-                if(Math.abs(move)<0.5){
-                    move = 0;
-                }
-                ship.x = ship.x + move;
-                if (ship.x - ship.width/2 <= 0){
-                    ship.x = ship.width/2 ;
-                }
-                if ( ship.x + ship.width/2 >= size.width){
-                    ship.x = size.width - ship.width/2;
-                }
-            }
-        });
+        this.ammoLabel.setPosition(cc.p(size.width - this.pauseLabel.width-this.ammoLabel.width,size.height-this.ammoLabel.height));
+        this.addChild(this.ammoLabel, 20);
 
 
-        if (cc.sys.isMobile) {
-            cc.eventManager.addListener(this.accelListener, this);
-        };
+        this.createEventListeners();
 
-        //Set Up Touch
-		if(cc.sys.capabilities.hasOwnProperty('touches')){
-	        cc.eventManager.addListener({
-	        	event: cc.EventListener.TOUCH_ONE_BY_ONE,
-	        	onTouchBegan: function (touch, event){
-                    var target = event.getCurrentTarget();
-                    var ship = target.ship;
-                    if (touch.getLocation().y > size.height*2/3) {
-//                        ship.health--;
-//                        if (ship.health == 0) {
-//                            ship.y-=ship.height/2;
-//                            ship.scheduleUpdate();
-//                            ship.release();
-//                            target.unscheduleUpdate();
-//                            cc.eventManager.removeAllListeners();
-//                            target.clearAllArrays();
-//                            target.addChild(new GameOverLayer(target.score), 1000);
-//                        }
-                        return true;
-                    };
-
-                    if (ship.ammo > 0) {
-                        var bomb = Bomb.grabOrCreate();
-                        if(touch.getLocation().x < size.width/2){
-                        	bomb.x = ship.x - ship.width/4;
-                        }
-                        else{
-                       		bomb.x = ship.x + ship.width/4;
-                        }
-
-                        bomb.y = ship.y- ship.height/2 + bomb.height/2;
-                        target._bombs.push(bomb);
-                        // bomb.retain();
-                        target.addChild(bomb, 9);
-                        target.ship.ammo--;
-                        target.ammoLabel.setString("Ammo: " + target.ship.ammo);
-                    };
-
-                    return true;
-				}        	
-	        }, this);
-	    }
         this.scheduleUpdate();
 	},
     update: function(dt){
@@ -254,8 +137,7 @@ var GameLayer = cc.Layer.extend({
                         cc.pool.putInPool(sub);
                         this._subs.splice(j,1);
                         this.killsTilNextLevel--;
-                        this.levelLabel.setString("Next Level: "+ this.killsTilNextLevel);            
-                        this.scoreLabel.setString("Score: "+ this.score);    
+                        this.scoreLabel.setString("Score: "+ this.score);
                     }
                 };
                 
@@ -272,7 +154,7 @@ var GameLayer = cc.Layer.extend({
             levelUp.tag = 1000;
             levelUp.runAction(new cc.Sequence(new cc.ScaleTo(1.2,2),new cc.CallFunc(this.removeChild, this, levelUp)))
             this.killsTilNextLevel = Math.ceil(this.level *2.5);
-            this.levelLabel.setString("Next Level: "+ this.killsTilNextLevel);            
+            this.levelLabel.setString("Level: "+ this.level);
             if (this.level % 2 == 0) {
                 this.subsToAdd++;
             }
@@ -397,7 +279,176 @@ var GameLayer = cc.Layer.extend({
         this._subs.length = 0;
         this._torpedos.length = 0;
         this._carePackages.length = 0;
+    },
+    pause:function(){
+        this.isPause = !this.isPause;
+
+        if (this.isPause) {
+            this.pauseLayer.color = new cc.Color(100, 143, 0,255);
+            this.unscheduleUpdate()
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].visible =false;
+                this.children[i].unscheduleUpdate();
+
+            };
+            this.pauseLayer.visible = true;
+            this.pauseLabel.visible = true;
+        }
+        else{
+            this.pauseLayer.color = new cc.Color(229, 16, 29,255);
+            this.scheduleUpdate();
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].visible =true;
+                if (this.children[i]._name != "Ship") {
+                    this.children[i].scheduleUpdate();
+                };
+            };
+        }
+    },
+    createEventListeners:function(){
+        if(cc.sys.capabilities.hasOwnProperty('keyboard') && !cc.sys.isMobile){
+            cc.eventManager.addListener(
+            {
+                event: cc.EventListener.KEYBOARD,
+                onKeyPressed: function(key, event){
+                    if(!this.isPause){
+                        var target = event.getCurrentTarget();
+                        var ship = target.ship;
+                        cc.log(key.toString())
+                        if (key == 37) {
+                            //moveLeft
+                            ship.x -= 10;
+                            if (ship.x - ship.width/2 <= 0){
+                                ship.x = ship.width/2 ;
+                            }
+                        };
+                        
+                        if (key == 39) {
+                            //moveRight
+                            ship.x+=10;
+                            if ( ship.x + ship.width/2 >= target.size.width){
+                                ship.x = target.size.width - ship.width/2;
+                            }
+                        };
+                        if (key ==32) {
+                            
+                            if(ship.ammo > 0){
+                                var bomb = Bomb.grabOrCreate();
+                                bomb.x = ship.x;
+                                bomb.y = ship.y- bomb.height/2;
+                                target._bombs.push(bomb);
+                                target.addChild(bomb, 9);
+                                target.ship.ammo--;
+                                target.ammoLabel.setString("Ammo: " + target.ship.ammo);
+                            }
+                        };
+                    }
+                    if (key == 13) {
+                        // ship.health--;
+                        // if (ship.health == 0) {
+                        //     ship.y-=ship.height/2;
+                        //     ship.scheduleUpdate();
+                        //     ship.release();
+                        //     target.unscheduleUpdate();
+                        //     cc.eventManager.removeAllListeners();
+                        //     target.clearAllArrays();
+                        //     target.addChild(new GameOverLayer(target.score), 1000);
+                        // }
+                        target.pause();
+                    };
+                    return true;
+                }
+            }, this);
+        }
+        //Set Up Accelerometer
+        else  if(cc.sys.capabilities.hasOwnProperty('accelerometer')){
+            cc.inputManager.setAccelerometerInterval(1/60);
+            cc.inputManager.setAccelerometerEnabled(true);
+                                
+        }
+
+        this.accelListener = cc.EventListener.create({
+            event: cc.EventListener.ACCELERATION,
+            callback: function(acc, event){
+                var target = event.getCurrentTarget();
+
+                //  Processing logic here
+                if(!target.isPause){
+                    var ship = event.getCurrentTarget().ship
+                    var accel = acc.x - (acc.x *.5) ;
+                    var move = accel * target.size.width * .07;
+                    if(move>4){
+                        move = 4;
+                    }
+                    if(move< -4){
+                        move = -4;
+                    }
+                    if(Math.abs(move)<0.5){
+                        move = 0;
+                    }
+                    ship.x = ship.x + move;
+                    if (ship.x - ship.width/2 <= 0){
+                        ship.x = ship.width/2 ;
+                    }
+                    if ( ship.x + ship.width/2 >= target.size.width){
+                        ship.x = target.size.width - ship.width/2;
+                    }
+                }
+            }
+        });
+
+
+        if (cc.sys.isMobile) {
+            cc.eventManager.addListener(this.accelListener, this);
+        };
+
+        //Set Up Touch
+        if(cc.sys.capabilities.hasOwnProperty('touches')){
+            cc.eventManager.addListener({
+                event: cc.EventListener.TOUCH_ONE_BY_ONE,
+                onTouchBegan: function (touch, event){
+                    var target = event.getCurrentTarget();
+                    var ship = target.ship;
+                    if (cc.rectContainsPoint(target.pauseLayer.getBoundingBox(),touch.getLocation())) {
+                        target.pause();
+                    };
+                    if (touch.getLocation().y > target.size.height*2/3) {
+//                        ship.health--;
+//                        if (ship.health == 0) {
+//                            ship.y-=ship.height/2;
+//                            ship.scheduleUpdate();
+//                            ship.release();
+//                            target.unscheduleUpdate();
+//                            cc.eventManager.removeAllListeners();
+//                            target.clearAllArrays();
+//                            target.addChild(new GameOverLayer(target.score), 1000);
+//                        }
+                        return true;
+                    };
+
+                    if (ship.ammo > 0 && !target.isPause) {
+                        var bomb = Bomb.grabOrCreate();
+                        if(touch.getLocation().x < target.size.width/2){
+                            bomb.x = ship.x - ship.width/4;
+                        }
+                        else{
+                            bomb.x = ship.x + ship.width/4;
+                        }
+
+                        bomb.y = ship.y- ship.height/2 + bomb.height/2;
+                        target._bombs.push(bomb);
+                        // bomb.retain();
+                        target.addChild(bomb, 9);
+                        target.ship.ammo--;
+                        target.ammoLabel.setString("Ammo: " + target.ship.ammo);
+                    };
+
+                    return true;
+                }           
+            }, this);
+        }
     }
+
 });
 
 GameLayer.getTheFreakingLevel = function(){

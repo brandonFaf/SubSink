@@ -8,7 +8,7 @@ var GameVars = (function () {
        if (isIpad) {
 	        var object = {
 	        	isIpad:false,
-	        	instructTextSize:18 * muiltiplier,
+	        	instructTextSize:23 * muiltiplier,
 				menuTextSize:70*muiltiplier,
 				buttonTextSize:45*muiltiplier,
 				hudTextSize:22*muiltiplier,
@@ -28,7 +28,7 @@ var GameVars = (function () {
     	else{
     		var object = {
 	        	isIpad:false,
-	        	instructTextSize:14,
+	        	instructTextSize:18,
 				menuTextSize:40,
 				buttonTextSize:32,
 				hudTextSize:16,

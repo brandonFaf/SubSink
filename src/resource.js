@@ -32,7 +32,7 @@ var res = {
     Settings: folder +"Cog.png",
     Arrow: folder +"Arrow.png",
     ShipSink: "res/sound/ShipSink.wav",
-    ShipBoom: "res/sound/ShipBoom.wav"
+    ShipBoom: "res/sound/shipBoom.wav"
 
 
 };
