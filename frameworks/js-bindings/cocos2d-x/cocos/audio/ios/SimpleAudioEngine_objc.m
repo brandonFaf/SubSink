@@ -54,6 +54,7 @@ static CDBufferManager *bufferManager = nil;
 {
     if((self=[super init])) {
         am = [CDAudioManager sharedManager];
+        [am setMode:kAMM_FxPlusMusicIfNoOtherAudio];
         soundEngine = am.soundEngine;
         bufferManager = [[CDBufferManager alloc] initWithEngine:soundEngine];
         mute_ = NO;

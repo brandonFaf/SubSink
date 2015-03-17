@@ -20,9 +20,8 @@ var carePackage = cc.Node.extend({
 		{
 			this.y-=dt*20;
 			if (this.y<this.gameVars.packageFadeHeight && !this.fadeStarted) {
-				this.pack.runAction(new cc.FadeOut(3));
+				this.pack.runAction(new cc.Sequence(new cc.FadeOut(3), new cc.CallFunc(this.RemoveCarePackage, this)));
 				this.fadeStarted = true;
-				this.parent.RemoveCarePackage(this);
 			};
 		}
 		else 
@@ -32,5 +31,12 @@ var carePackage = cc.Node.extend({
 				this.care.visible = false;
 			}
 		};
+	},
+	RemoveCarePackage:function(){
+		for (var i = 0; i < this.parent._carePackages.length; i++) {
+            if (this.parent._carePackages[i] == this) {
+                this.parent._carePackages.splice(i,1);
+            }
+        }
 	}
 })

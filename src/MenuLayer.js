@@ -7,9 +7,14 @@ var MenuLayer = cc.Layer.extend({
 		this.size = cc.winSize;
         var size = this.size;
 
-        var settings = new cc.MenuItemImage(res.Settings, res.Settings, this.showSettings, this);
-        settings.x = settings.width;
-        settings.y = size.height-settings.height;
+        
+		this.sfx = new cc.MenuItemImage(res.SFXon, res.SFXoff, res.SFXoff, this.changeSFX, this);
+		this.sfx.x = this.sfx.width;
+		this.sfx.y = size.height-this.sfx.height*.75;
+
+		if(cc.audioEngine.getEffectsVolume() == 0){
+			this.sfx.selected();
+		}
 
         var backBox = new cc.LayerColor(new cc.Color(231,34,0,255),size.width*3/4, size.height*9/10);
 		backBox.x = size.width/2-backBox.width/2;
@@ -53,24 +58,10 @@ var MenuLayer = cc.Layer.extend({
 		start.fontSize = gameVars.buttonTextSize;
 		start.fontName = "Arial";
 		start.color = new cc.Color(0,0,0,255);
-		var menu = new cc.Menu(settings, start);
+		var menu = new cc.Menu(this.sfx, start);
         menu.setPosition(cc.p(0,0));
         this.addChild(menu,50);
-		// var fadeOut = new cc.FadeOut(1);
-		// var fadeIn = new cc.FadeIn(1);
 
-		// var seq = new cc.Sequence(fadeOut,fadeIn);
-
-		//  start.runAction(new cc.RepeatForever(seq));
-		 // if(cc.sys.capabilities.hasOwnProperty('touches')){
-	  //       cc.eventManager.addListener({
-	  //       	event: cc.EventListener.TOUCH_ONE_BY_ONE,
-	  //       	onTouchBegan: function (touch, event){
-	  //       		cc.director.runScene(new GameScene());
-   //                  return true;
-			// 	}        	
-	  //       }, this);
-	  //   }
 	    if(cc.sys.capabilities.hasOwnProperty('keyboard') && !cc.sys.isMobile){
             cc.eventManager.addListener(
             {
@@ -86,7 +77,20 @@ var MenuLayer = cc.Layer.extend({
 	play:function(){
 		cc.director.runScene(new GameScene());
 	},
-	showSettings:function(){
-		cc.director.pushScene(new SettingsScene());
+	changeSFX:function(){
+		if (cc.audioEngine.getEffectsVolume() == 1) {
+			this.sfx.selected();
+			cc.audioEngine.stopAllEffects();
+			cc.audioEngine.setEffectsVolume(0);
+		}
+		else{
+			this.sfx.unselected();
+			cc.audioEngine.stopAllEffects();
+			cc.audioEngine.setEffectsVolume(1);
+	        cc.audioEngine.playEffect(res.Bang_sound);
+		}
+		// cc.director.pushScene(new SettingsScene());
+
+
 	}
 });

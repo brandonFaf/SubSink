@@ -19,7 +19,8 @@ var GameVars = (function () {
 				GOButtonRatio:1/10,
 				GOButtonTextSize:30*muiltiplier,
                 subPointsSize:26*muiltiplier,
-                levelSize:50*muiltiplier
+                levelSize:50*muiltiplier,
+                speed:"Normal"
 
 
 	        };
@@ -39,7 +40,8 @@ var GameVars = (function () {
 				GOButtonRatio:1/10,
 				GOButtonTextSize:20,
                 subPointsSize:22,
-                levelSize:30*muiltiplier
+                levelSize:30*muiltiplier,
+                speed:"Normal"
         	};
         	return object;
     	}

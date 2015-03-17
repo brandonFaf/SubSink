@@ -34,6 +34,8 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/favicon.ico \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/healthPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/HelloWorld.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/noSFX.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/SFX.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/Ship.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/ShipHurt.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/extraLarge/ShipHurtMore.png \
@@ -59,6 +61,8 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/favicon.ico \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/healthPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/HelloWorld.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/noSFX.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/SFX.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/Ship.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/ShipHurt.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/large/ShipHurtMore.png \
@@ -84,7 +88,8 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/favicon.ico \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/healthPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/HelloWorld.png \
-/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/RedSub.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/noSFX.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/SFX.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/Ship.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/ShipHurt.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/medium/ShipHurtMore.png \
@@ -110,7 +115,8 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/favicon.ico \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/healthPackage.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/HelloWorld.png \
-/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/package.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/noSFX.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/SFX.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/Ship.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/ShipHurt.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/ShipHurtMore.png \
@@ -121,9 +127,12 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/SubBackground.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/SubLong.png \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/small/torpedo.png \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/backgroundMusic(silence).wav \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/Bang.wav \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/noAmmo.wav \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/shipBoom.wav \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/ShipBoomEcho.wav \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/shipShoot.wav \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/res/sound/ShipSink.wav \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/script/ccui \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/script/chipmunk \
@@ -183,6 +192,7 @@
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/src/LongSub.jsc \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/src/MenuLayer.jsc \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/src/MenuScene.jsc \
+/Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/src/PauseLayer.jsc \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/src/Plane.jsc \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/src/resource.jsc \
 /Users/brandonmyers/Desktop/SubSink/frameworks/runtime-src/proj.android/assets/src/SettingsScene.jsc \

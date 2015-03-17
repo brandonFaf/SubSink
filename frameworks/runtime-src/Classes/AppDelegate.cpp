@@ -54,6 +54,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 		director->setOpenGLView(glview);
 	}
 
+    Device::setKeepScreenOn(true);
+
+    
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
     
@@ -64,36 +67,36 @@ bool AppDelegate::applicationDidFinishLaunching()
     sc->addRegisterCallback(jsb_register_system);
 
     // extension can be commented out to reduce the package
-    sc->addRegisterCallback(register_all_cocos2dx_extension);
-    sc->addRegisterCallback(register_all_cocos2dx_extension_manual);
+    //sc->addRegisterCallback(register_all_cocos2dx_extension);
+    //sc->addRegisterCallback(register_all_cocos2dx_extension_manual);
 
     // chipmunk can be commented out to reduce the package
-    sc->addRegisterCallback(jsb_register_chipmunk);
+    //sc->addRegisterCallback(jsb_register_chipmunk);
     // opengl can be commented out to reduce the package
-    sc->addRegisterCallback(JSB_register_opengl);
+    //sc->addRegisterCallback(JSB_register_opengl);
     
-    // builder can be commented out to reduce the package
-    sc->addRegisterCallback(register_all_cocos2dx_builder);
-    sc->addRegisterCallback(register_CCBuilderReader);
-    
-    // ui can be commented out to reduce the package, attension studio need ui module
-    sc->addRegisterCallback(register_all_cocos2dx_ui);
-    sc->addRegisterCallback(register_all_cocos2dx_ui_manual);
-
-    // studio can be commented out to reduce the package, 
-    sc->addRegisterCallback(register_all_cocos2dx_studio);
-    sc->addRegisterCallback(register_all_cocos2dx_studio_manual);
-    
-    // spine can be commented out to reduce the package
-    sc->addRegisterCallback(register_all_cocos2dx_spine);
-    sc->addRegisterCallback(register_all_cocos2dx_spine_manual);
-    
-    // XmlHttpRequest can be commented out to reduce the package
-    sc->addRegisterCallback(MinXmlHttpRequest::_js_register);
-    // websocket can be commented out to reduce the package
-    sc->addRegisterCallback(register_jsb_websocket);
-    // sokcet io can be commented out to reduce the package
-    sc->addRegisterCallback(register_jsb_socketio);
+//    // builder can be commented out to reduce the package
+//    sc->addRegisterCallback(register_all_cocos2dx_builder);
+//    sc->addRegisterCallback(register_CCBuilderReader);
+//    
+//    // ui can be commented out to reduce the package, attension studio need ui module
+//    sc->addRegisterCallback(register_all_cocos2dx_ui);
+//    sc->addRegisterCallback(register_all_cocos2dx_ui_manual);
+//
+//    // studio can be commented out to reduce the package, 
+//    sc->addRegisterCallback(register_all_cocos2dx_studio);
+//    sc->addRegisterCallback(register_all_cocos2dx_studio_manual);
+//    
+//    // spine can be commented out to reduce the package
+//    sc->addRegisterCallback(register_all_cocos2dx_spine);
+//    sc->addRegisterCallback(register_all_cocos2dx_spine_manual);
+//    
+//    // XmlHttpRequest can be commented out to reduce the package
+//    sc->addRegisterCallback(MinXmlHttpRequest::_js_register);
+//    // websocket can be commented out to reduce the package
+//    sc->addRegisterCallback(register_jsb_websocket);
+//    // sokcet io can be commented out to reduce the package
+//    sc->addRegisterCallback(register_jsb_socketio);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     sc->addRegisterCallback(JavascriptJavaBridge::_js_register);

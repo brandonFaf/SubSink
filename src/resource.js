@@ -18,7 +18,6 @@ var res = {
     Ship_sink_png : folder + "ShipSink.png",    
     Sub_Long_png : folder + "SubLong.png",
     Sub_png : folder + "Sub.png",
-    RedSub_png : folder + "RedSub.png",
     Bomb_png : folder + "bomb.png",
     Boom_png: folder + "BANG.png",
     Bang_sound: "res/sound/Bang.wav",
@@ -32,9 +31,12 @@ var res = {
     Settings: folder +"Cog.png",
     Arrow: folder +"Arrow.png",
     ShipSink: "res/sound/ShipSink.wav",
-    ShipBoom: "res/sound/shipBoom.wav"
-
-
+    ShipBoom: "res/sound/shipBoom.wav",
+    ShipShoot: "res/sound/shipShoot.wav",
+    GameMusic: "res/sound/backgroundMusic(silence).wav",
+    NoAmmo: "res/sound/noAmmo.wav",
+    SFXon: folder + "SFX.png",
+    SFXoff: folder + "noSFX.png"
 };
 
 var g_resources = [];

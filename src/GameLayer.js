@@ -17,15 +17,18 @@ var GameLayer = cc.Layer.extend({
     isIpad:false,
     gameVars: null,
     isPause:false,
+    pauseLayer:null,
     ctor: function(){
 		this._super();
 
         this.gameVars = GameVars.getInstance();
 
+        cc.audioEngine.playMusic(res.GameMusic, true);
 		//get WinSize
 		this.size = cc.winSize;
         var size = this.size;
         this.clearAllArrays();
+
         this.scoreLabel = new cc.LabelTTF("Score: " + this.score, "Arial", this.gameVars.hudTextSize);
         this.scoreLabel.setPosition(cc.p(this.scoreLabel.width*3/4,size.height-this.scoreLabel.height));
         this.addChild(this.scoreLabel, 20);
@@ -59,16 +62,16 @@ var GameLayer = cc.Layer.extend({
         }
 
 
-        this.pauseLabel = new cc.LabelTTF("PAUSE","Arial",this.gameVars.hudTextSize);
-        this.pauseLabel.setPosition(cc.p(size.width - this.pauseLabel.width*2/3,size.height-this.pauseLabel.height));
-        this.addChild(this.pauseLabel,20);
+        this.pauseButtonLabel = new cc.LabelTTF("PAUSE","Arial",this.gameVars.hudTextSize);
+        this.pauseButtonLabel.setPosition(cc.p(size.width - this.pauseButtonLabel.width*2/3,size.height-this.pauseButtonLabel.height));
+        this.addChild(this.pauseButtonLabel,20);
 
-        this.pauseLayer = new cc.LayerColor(new cc.Color(229, 16, 29,255),this.pauseLabel.width*5/4,this.pauseLabel.height*5/4);
-        this.pauseLayer.setPosition(cc.p(this.pauseLabel.x-this.pauseLayer.width/2, this.pauseLabel.y-this.pauseLayer.height/2));
-        this.addChild(this.pauseLayer,19);
+        this.pauseButtonLayer = new cc.LayerColor(new cc.Color(229, 16, 29,255),this.pauseButtonLabel.width*5/4,this.pauseButtonLabel.height*5/4);
+        this.pauseButtonLayer.setPosition(cc.p(this.pauseButtonLabel.x-this.pauseButtonLayer.width/2, this.pauseButtonLabel.y-this.pauseButtonLayer.height/2));
+        this.addChild(this.pauseButtonLayer,19);
 
         this.ammoLabel = new cc.LabelTTF("Ammo: " + this.ship.ammo, "Arial", this.gameVars.hudTextSize);
-        this.ammoLabel.setPosition(cc.p(size.width - this.pauseLabel.width-this.ammoLabel.width,size.height-this.ammoLabel.height));
+        this.ammoLabel.setPosition(cc.p(size.width - this.pauseButtonLabel.width-this.ammoLabel.width,size.height-this.ammoLabel.height));
         this.addChild(this.ammoLabel, 20);
 
 
@@ -101,6 +104,7 @@ var GameLayer = cc.Layer.extend({
             this.addChild(cp, 10);
             this._carePackages.push(cp);
             var plane = new Plane(cp);
+
             
             this.addChild(plane, 1000);            
         };                             
@@ -192,6 +196,8 @@ var GameLayer = cc.Layer.extend({
                 this.ship.release();
                 this.unscheduleUpdate();
                 cc.eventManager.removeAllListeners();
+                this.removeChild(this.pauseButtonLabel);
+                this.removeChild(this.pauseButtonLayer);
                 this.scheduleOnce(function(){
                     this.addChild(new GameOverLayer(this.score), 1000);
                 }, 2)
@@ -211,6 +217,10 @@ var GameLayer = cc.Layer.extend({
             if (this._carePackages[i].care.visible) {
                 if(cc.rectContainsPoint(longBox,newCenter) || cc.rectContainsPoint(tallBox,newCenter) ) {
                     this.ship.ammo += this._carePackages[i].ammo;
+                    if (this.ship.ammo > 40) {
+                        this.ship.ammo = 40;
+                        this.ammoLabel.color = new cc.Color(200,0,0);
+                    }
                     this.ship.health += this._carePackages[i].health;
                     this.ship.checkShipHealth();
                     this.getChildByTag(this.ship.health).visible = true;
@@ -223,6 +233,10 @@ var GameLayer = cc.Layer.extend({
             else{
                 if(cc.rectIntersectsRect(this.ship.getBoundingBox(),packageBox)) {
                     this.ship.ammo += this._carePackages[i].ammo;
+                    if (this.ship.ammo > 40) {
+                        this.ship.ammo = 40;
+                        this.ammoLabel.color = new cc.Color(200,0,0);
+                    }
                     this.ship.health += this._carePackages[i].health;
                     this.ship.checkShipHealth();
                     this.getChildByTag(this.ship.health).visible = true;
@@ -233,6 +247,8 @@ var GameLayer = cc.Layer.extend({
                 
             }
         };
+        
+        
     },
     changeBoxCoords:function(space, rect){
         var newOrigin = space.convertToWorldSpace(cc.p(rect.x,rect.y));
@@ -284,24 +300,31 @@ var GameLayer = cc.Layer.extend({
         this.isPause = !this.isPause;
 
         if (this.isPause) {
-            this.pauseLayer.color = new cc.Color(100, 143, 0,255);
+            this.pauseButtonLayer.color = new cc.Color(100, 143, 0,255);
             this.unscheduleUpdate()
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i].visible =false;
                 this.children[i].unscheduleUpdate();
 
             };
-            this.pauseLayer.visible = true;
-            this.pauseLabel.visible = true;
+            this.pauseLayer = new pauseLayer(); 
+            this.pauseLayer.setPosition(cc.p(0,0));
+            this.addChild(this.pauseLayer)//this.pauseLayer);
+            this.pauseButtonLayer.visible = true;
+            this.pauseButtonLabel.visible = true;
         }
         else{
-            this.pauseLayer.color = new cc.Color(229, 16, 29,255);
+            this.pauseButtonLayer.color = new cc.Color(229, 16, 29,255);
             this.scheduleUpdate();
+            this.removeChild(this.pauseLayer);
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i].visible =true;
                 if (this.children[i]._name != "Ship") {
                     this.children[i].scheduleUpdate();
                 };
+                if(this.children[i].tag >this.ship.health && this.children[i].tag<= this.ship.maxHealth){
+                    this.children[i].visible = false;
+                }
             };
         }
     },
@@ -331,8 +354,13 @@ var GameLayer = cc.Layer.extend({
                             }
                         };
                         if (key ==32) {
-                            
+                            if (ship.ammo <= 0 ) {
+                                cc.audioEngine.playEffect(res.NoAmmo);
+                                return true;
+
+                            };
                             if(ship.ammo > 0){
+                                cc.audioEngine.playEffect(res.ShipShoot);
                                 var bomb = Bomb.grabOrCreate();
                                 bomb.x = ship.x;
                                 bomb.y = ship.y- bomb.height/2;
@@ -340,10 +368,13 @@ var GameLayer = cc.Layer.extend({
                                 target.addChild(bomb, 9);
                                 target.ship.ammo--;
                                 target.ammoLabel.setString("Ammo: " + target.ship.ammo);
+                                target.ammoLabel.setColor(new cc.Color(255,255,255));
+
                             }
                         };
                     }
                     if (key == 13) {
+               
                         // ship.health--;
                         // if (ship.health == 0) {
                         //     ship.y-=ship.height/2;
@@ -377,15 +408,44 @@ var GameLayer = cc.Layer.extend({
                     var ship = event.getCurrentTarget().ship
                     var accel = acc.x - (acc.x *.5) ;
                     var move = accel * target.size.width * .07;
-                    if(move>4){
-                        move = 4;
+                    // if (cc.sys.os == "Android") {
+                    if (target.gameVars.speed == "Slower") {
+                        if(move>2.5){
+                            move = 2.5;
+                        }
+                        if(move< -2.5){
+                            move = -2.5;
+                        }
+                        if(Math.abs(move)<.75){
+                            move = 0;
+                        }
                     }
-                    if(move< -4){
-                        move = -4;
+                    else if (target.gameVars.speed == "Faster") {
+
+                        if(move>6){
+                            move = 6;
+                        }
+                        if(move< -6){
+                            move = -6;
+                        }
+                        if(Math.abs(move)<.75){
+                            move = 0;
+                        }
                     }
-                    if(Math.abs(move)<0.5){
-                        move = 0;
+                    else{
+
+                        if(move>4){
+                            move = 4;
+                        }
+                        if(move< -4){
+                            move = -4;
+                        }
+                        if(Math.abs(move)<.5){
+                            move = 0;
+                        }
                     }
+                    cc.log(move)
+
                     ship.x = ship.x + move;
                     if (ship.x - ship.width/2 <= 0){
                         ship.x = ship.width/2 ;
@@ -409,25 +469,31 @@ var GameLayer = cc.Layer.extend({
                 onTouchBegan: function (touch, event){
                     var target = event.getCurrentTarget();
                     var ship = target.ship;
-                    if (cc.rectContainsPoint(target.pauseLayer.getBoundingBox(),touch.getLocation())) {
+                    if (cc.rectContainsPoint(target.pauseButtonLayer.getBoundingBox(),touch.getLocation())) {
                         target.pause();
-                    };
-                    if (touch.getLocation().y > target.size.height*2/3) {
-//                        ship.health--;
-//                        if (ship.health == 0) {
-//                            ship.y-=ship.height/2;
-//                            ship.scheduleUpdate();
-//                            ship.release();
-//                            target.unscheduleUpdate();
-//                            cc.eventManager.removeAllListeners();
-//                            target.clearAllArrays();
-//                            target.addChild(new GameOverLayer(target.score), 1000);
-//                        }
                         return true;
                     };
+//                     if (touch.getLocation().y > target.size.height*2/3) {
+// //                        ship.health--;
+// //                        if (ship.health == 0) {
+// //                            ship.y-=ship.height/2;
+// //                            ship.scheduleUpdate();
+// //                            ship.release();
+// //                            target.unscheduleUpdate();
+// //                            cc.eventManager.removeAllListeners();
+// //                            target.clearAllArrays();
+// //                            target.addChild(new GameOverLayer(target.score), 1000);
+// //                        }
+//                         return true;
+//                     };
+                    if (ship.ammo <= 0 ) {
+                        cc.audioEngine.playEffect(res.NoAmmo);
+                        return true;
 
+                    };
                     if (ship.ammo > 0 && !target.isPause) {
                         var bomb = Bomb.grabOrCreate();
+                        cc.audioEngine.playEffect(res.ShipShoot);
                         if(touch.getLocation().x < target.size.width/2){
                             bomb.x = ship.x - ship.width/4;
                         }
