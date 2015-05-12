@@ -18,16 +18,34 @@ var GameLayer = cc.Layer.extend({
     gameVars: null,
     isPause:false,
     pauseLayer:null,
+    stats:null,
+    sunkSinceLastMiss:0,
+    activeQue:null,
+    readyToRemove:null,
     ctor: function(){
 		this._super();
 
-        this.gameVars = GameVars.getInstance();
+        this.activeQue = new Queue();
+        this.readyToRemove = new Queue();
 
+cc.audioEngine.setEffectsVolume(0);
+
+        this.gameVars = GameVars.getInstance();
         cc.audioEngine.playMusic(res.GameMusic, true);
+
+        this.timeSinceLastHit = 0;
+        this.sunkSinceLastHit = 0;
+
+        var ls = cc.sys.localStorage;
+        this.missionLevel = ls.getItem("MissionLevel") <= null ? 1 : ls.getItem("MissionLevel") ;
+        this.goal =  parseInt(ls.getItem("MissionGoal"));
+        this.secondary = parseInt(ls.getItem("MissionSecondary")); 
+
 		//get WinSize
 		this.size = cc.winSize;
         var size = this.size;
         this.clearAllArrays();
+        this.stats = {shotsTaken:0, shotsLanded:0, timePlayed:0, totalLongSubs:0, totalShortSubs:0, ammoCollected:0, healthCollected:0, missionPassed:false};
 
         this.scoreLabel = new cc.LabelTTF("Score: " + this.score, "Arial", this.gameVars.hudTextSize);
         this.scoreLabel.setPosition(cc.p(this.scoreLabel.width*3/4,size.height-this.scoreLabel.height));
@@ -45,8 +63,8 @@ var GameLayer = cc.Layer.extend({
         this.ship.y = this.gameVars.waterHeight + this.ship.height/2-this.ship.height/20;
         
         this.ship.ammo = 5;
-        this.ship.health = 5;
-        this.ship.maxHealth = 5;
+        this.ship.health = 2;
+        this.ship.maxHealth = 2;
         this.ship.retain();
         this.addChild(this.ship, 10);
 
@@ -80,6 +98,11 @@ var GameLayer = cc.Layer.extend({
         this.scheduleUpdate();
 	},
     update: function(dt){
+        this.move = true;
+        if(!this.isPause){
+            this.stats.timePlayed += dt;
+            this.timeSinceLastHit += dt;
+        }
         if(this._subs.length < this.minSubs){
             this.wave++;
             for (var i = 0; i < this.subsToAdd; i++) {
@@ -120,7 +143,29 @@ var GameLayer = cc.Layer.extend({
                     boom.runAction(new cc.FadeOut(1));
                     cc.audioEngine.playEffect(res.Bang_sound);
                     sub.hp--;
+                    this.stats.shotsLanded++;
                     cc.pool.putInPool(bomb);
+                    if (this.activeQue.peek() == bomb) {
+                        this.activeQue.dequeue();
+                        if (sub.hp == 0) {
+                            this.sunkSinceLastMiss++;
+                        }
+                        while(!this.readyToRemove.isEmpty() && this.activeQue.peek() == this.readyToRemove.peek()){
+                            var bmb = this.activeQue.dequeue();
+                            this.readyToRemove.dequeue();
+                            if (bmb.isHit) {
+                                sunkSinceLastMiss++;
+                            }
+                            else{
+                                sunkSinceLastMiss = 0;
+                            }
+
+                        } 
+                    }
+                    else{
+                        bomb.isHit = true;
+                        this.readyToRemove.enqueue(bomb)
+                    }
                     this._bombs.splice(i,1);
                     if (sub.hp == 1) {
                         var emmiter = new cc.ParticleSmoke();
@@ -138,7 +183,14 @@ var GameLayer = cc.Layer.extend({
                         pointsLabel.runAction(new cc.MoveBy(1.2,cc.p(10,10)));
                         pointsLabel.runAction(new cc.Sequence(new cc.FadeOut(1.2), new cc.CallFunc(this.removeChild, this, pointsLabel)));
                         this.score+= sub.points;
+                        this.sunkSinceLastHit++;
                         cc.pool.putInPool(sub);
+                        if (sub.subType == "Short") {
+                            this.stats.totalShortSubs++;
+                        }
+                        else{
+                            this.stats.totalLongSubs++;
+                        }
                         this._subs.splice(j,1);
                         this.killsTilNextLevel--;
                         this.scoreLabel.setString("Score: "+ this.score);
@@ -182,7 +234,12 @@ var GameLayer = cc.Layer.extend({
 
                 this.ship.health --;
                 this._torpedos.splice(i,1);
-                this.ship.checkShipHealth()
+                //this.ship.checkShipHealth()
+                if (!this.stats.missionPassed) {
+                    this.checkMisison();
+                };
+                this.timeSinceLastHit = 0;
+                this.sunkSinceLastHit = 0;
             }
 
             if (this.ship.health == 0) {
@@ -198,8 +255,16 @@ var GameLayer = cc.Layer.extend({
                 cc.eventManager.removeAllListeners();
                 this.removeChild(this.pauseButtonLabel);
                 this.removeChild(this.pauseButtonLayer);
+                this.removeChild(this.ammoLabel);
+                
+        
                 this.scheduleOnce(function(){
-                    this.addChild(new GameOverLayer(this.score), 1000);
+                    var moreLabel = new cc.LabelTTF("Swipe right to see more", "Arial", this.gameVars.gameOverLabelSize);
+                    moreLabel.x = this.size.width/2;
+                    moreLabel.y = this.size.height-moreLabel.height
+                    this.parent.addChild(moreLabel);
+                    //  moreLabel.runAction(cc.RepeatForever(cc.Sequence(cc.FadeOut(1), cc.FadeIn(1))));
+                    this.addChild(new GameOverLayer(this.score, this.stats), 1000);
                 }, 2)
                 return;
             };
@@ -222,6 +287,12 @@ var GameLayer = cc.Layer.extend({
                         this.ammoLabel.color = new cc.Color(200,0,0);
                     }
                     this.ship.health += this._carePackages[i].health;
+                    if(this._carePackages[i].ammo > 0 ){
+                        this.stats.ammoCollected++;
+                    }
+                    else{
+                        this.stats.healthCollected++;
+                    }
                     this.ship.checkShipHealth();
                     this.getChildByTag(this.ship.health).visible = true;
                     this.ammoLabel.setString("Ammo: " + this.ship.ammo);
@@ -238,7 +309,13 @@ var GameLayer = cc.Layer.extend({
                         this.ammoLabel.color = new cc.Color(200,0,0);
                     }
                     this.ship.health += this._carePackages[i].health;
-                    this.ship.checkShipHealth();
+                    if(this._carePackages[i].ammo > 0 ){
+                        this.stats.ammoCollected++;
+                    }
+                    else{
+                        this.stats.healthCollected++;
+                    }
+                    //this.ship.checkShipHealth();
                     this.getChildByTag(this.ship.health).visible = true;
                     this._carePackages[i].removeFromParent(true);
                     this._carePackages.splice(i,1);
@@ -273,10 +350,10 @@ var GameLayer = cc.Layer.extend({
         }
         
         if (this.level <= 3) {
-            sub.y = Math.random()*(this.gameVars.waterHeight- sub.height-((1/(this.level+1))*this.gameVars.waterHeight))+((1/(this.level+1))*this.gameVars.waterHeight);
+            sub.y = sub.height/2+ Math.random()*(this.gameVars.waterHeight- sub.height-((1/(this.level+1))*this.gameVars.waterHeight))+((1/(this.level+1))*this.gameVars.waterHeight);
         }
         else{
-            sub.y = Math.random()*(this.gameVars.waterHeight - sub.height)  
+            sub.y = sub.height/2 + Math.random()*(this.gameVars.waterHeight - sub.height)  
         }       
         
         if(sub.y < this.gameVars.waterHeight*2/5){
@@ -295,6 +372,7 @@ var GameLayer = cc.Layer.extend({
         this._subs.length = 0;
         this._torpedos.length = 0;
         this._carePackages.length = 0;
+
     },
     pause:function(){
         this.isPause = !this.isPause;
@@ -326,6 +404,57 @@ var GameLayer = cc.Layer.extend({
                     this.children[i].visible = false;
                 }
             };
+        }
+    },
+    checkMisison:function(){
+        var ls = cc.sys.localStorage;
+        var totalSunk = this.stats.totalShortSubs + this.stats.totalLongSubs;
+        switch(this.missionLevel % 7){
+            case 1: //"Start a game by surviving " + mission.goal " + seconds without getting hit."
+                if(this.timeSinceLastHit >= this.goal){
+                    this.stats.missionPassed = true;
+                    this.missionLevel++;
+                    ls.setItem("MissionLevel", this.missionLevel);
+                }
+                break;
+            case 2: //"Sink " +mission.goal+ " subs without getting hit."
+                if(this.sunkSinceLastHit >= this.goal){
+                    this.stats.missionPassed = true;
+                    this.missionLevel++;
+                    ls.setItem("MissionLevel", this.missionLevel);
+                }
+                break;
+            case 3: //"Sink " + mission.goal + " subs without missing."
+                if(this.sunkSinceLastMiss >= this.goal){
+                    this.stats.missionPassed = true;
+                    //this.missionLevel++;
+                    //ls.setItem("MissionLevel", this.missionLevel);
+                }
+                break;
+            case 4: //"Sink " + mission.goal + " subs in " + parseInt(level/7)+1 *5 + " seconds"
+                if(this.timeUp && totalSunk >= this.goal){
+                    this.stats.missionPassed = true;
+                    // this.missionLevel++;
+                    // ls.setItem("MissionLevel", this.missionLevel);
+                    }
+                break;
+            case 5: //"Score " + mission.goal+ " points in one game"
+                if (this.ship.health == 0 && (this.stats.totalShortSubs + this.stats.totalLongSubs) >= this.goal) {
+                    this.stats.missionPassed = true;
+                    // this.missionLevel++;
+                    // ls.setItem("MissionLevel", this.missionLevel);
+                };
+                break;
+            case 6: //"Score a total of " + mission.goal + " points.
+            case 7://"Play " + mission.goal+ "games"
+                if(this.secondary >= this.goal){
+                    this.stats.missionPassed = true;
+                    // this.missionLevel++;
+                    // ls.setItem("MissionLevel", this.missionLevel);
+                }
+                break;
+            default:
+                break; 
         }
     },
     createEventListeners:function(){
@@ -369,23 +498,25 @@ var GameLayer = cc.Layer.extend({
                                 target.ship.ammo--;
                                 target.ammoLabel.setString("Ammo: " + target.ship.ammo);
                                 target.ammoLabel.setColor(new cc.Color(255,255,255));
+                                target.stats.shotsTaken++
+                                target.activeQue.enqueue(bomb);
 
                             }
                         };
                     }
                     if (key == 13) {
                
-                        // ship.health--;
-                        // if (ship.health == 0) {
-                        //     ship.y-=ship.height/2;
-                        //     ship.scheduleUpdate();
-                        //     ship.release();
-                        //     target.unscheduleUpdate();
-                        //     cc.eventManager.removeAllListeners();
-                        //     target.clearAllArrays();
-                        //     target.addChild(new GameOverLayer(target.score), 1000);
-                        // }
-                        target.pause();
+                        ship.health--;
+                        if (ship.health == 0) {
+                            ship.y-=ship.height/2;
+                            ship.scheduleUpdate();
+                            ship.release();
+                            target.unscheduleUpdate();
+                            cc.eventManager.removeAllListeners();
+                            target.clearAllArrays();
+                            target.addChild(new GameOverLayer(target.score, target.stats), 1000);
+                        }
+                        // target.pause();
                     };
                     return true;
                 }
@@ -401,14 +532,14 @@ var GameLayer = cc.Layer.extend({
         this.accelListener = cc.EventListener.create({
             event: cc.EventListener.ACCELERATION,
             callback: function(acc, event){
-                var target = event.getCurrentTarget();
 
+                var target = event.getCurrentTarget();
+                if (target.move) {
+                    target.move = false;
                 //  Processing logic here
-                if(!target.isPause){
                     var ship = event.getCurrentTarget().ship
                     var accel = acc.x - (acc.x *.5) ;
                     var move = accel * target.size.width * .07;
-                    // if (cc.sys.os == "Android") {
                     if (target.gameVars.speed == "Slower") {
                         if(move>2.5){
                             move = 2.5;
@@ -444,7 +575,6 @@ var GameLayer = cc.Layer.extend({
                             move = 0;
                         }
                     }
-                    cc.log(move)
 
                     ship.x = ship.x + move;
                     if (ship.x - ship.width/2 <= 0){
@@ -453,7 +583,7 @@ var GameLayer = cc.Layer.extend({
                     if ( ship.x + ship.width/2 >= target.size.width){
                         ship.x = target.size.width - ship.width/2;
                     }
-                }
+                };   
             }
         });
 
@@ -473,19 +603,19 @@ var GameLayer = cc.Layer.extend({
                         target.pause();
                         return true;
                     };
-//                     if (touch.getLocation().y > target.size.height*2/3) {
-// //                        ship.health--;
-// //                        if (ship.health == 0) {
-// //                            ship.y-=ship.height/2;
-// //                            ship.scheduleUpdate();
-// //                            ship.release();
-// //                            target.unscheduleUpdate();
-// //                            cc.eventManager.removeAllListeners();
-// //                            target.clearAllArrays();
-// //                            target.addChild(new GameOverLayer(target.score), 1000);
-// //                        }
-//                         return true;
-//                     };
+                    // if (touch.getLocation().y > target.size.height*2/3) {
+                    //    ship.health--;
+                    //     if (ship.health == 0) {
+                    //         ship.y-=ship.height/2;
+                    //         ship.scheduleUpdate();
+                    //         ship.release();
+                    //         target.unscheduleUpdate();
+                    //         cc.eventManager.removeAllListeners();
+                    //         target.clearAllArrays();
+                    //         target.addChild(new GameOverLayer(target.score, target.stats), 1000);
+                    //     }
+                    //     return true;
+                    // };
                     if (ship.ammo <= 0 ) {
                         cc.audioEngine.playEffect(res.NoAmmo);
                         return true;
@@ -507,10 +637,12 @@ var GameLayer = cc.Layer.extend({
                         target.addChild(bomb, 9);
                         target.ship.ammo--;
                         target.ammoLabel.setString("Ammo: " + target.ship.ammo);
+                        target.stats.shotsTaken++
+
                     };
 
                     return true;
-                }           
+                }          
             }, this);
         }
     }

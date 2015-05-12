@@ -36,7 +36,11 @@ var res = {
     GameMusic: "res/sound/backgroundMusic(silence).wav",
     NoAmmo: "res/sound/noAmmo.wav",
     SFXon: folder + "SFX.png",
-    SFXoff: folder + "noSFX.png"
+    SFXoff: folder + "noSFX.png",
+    InstructionsIcon: folder + "Instructions.png",
+    Stats: folder + "Stats.png",
+    Missions: folder + "bombMissions.png",
+    Accomplished: folder + "Accomplished.png"
 };
 
 var g_resources = [];

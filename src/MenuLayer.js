@@ -1,3 +1,5 @@
+var AdMob;
+var m;
 var MenuLayer = cc.Layer.extend({
 	ctor:function(){
 		this._super();
@@ -7,61 +9,63 @@ var MenuLayer = cc.Layer.extend({
 		this.size = cc.winSize;
         var size = this.size;
 
-        
 		this.sfx = new cc.MenuItemImage(res.SFXon, res.SFXoff, res.SFXoff, this.changeSFX, this);
 		this.sfx.x = this.sfx.width;
 		this.sfx.y = size.height-this.sfx.height*.75;
 
+		this.instructions = new cc.MenuItemImage(res.InstructionsIcon, res.InstructionsIcon, res.InstructionsIcon, this.goInstructions, this);
+		this.instructions.x = this.sfx.x + this.sfx.width/2 + this.instructions.width;
+		this.instructions.y = this.sfx.y ;
+
+        this.stats = new cc.MenuItemImage(res.Stats, res.Stats, res.Stats, this.goStats, this);
+        this.stats.x = this.instructions.x + this.instructions.width/2 + this.stats.width;
+        this.stats.y = this.instructions.y ;
+
+        this.missions = new cc.MenuItemImage(res.Missions, res.Missions, res.Missions, this.goMissions, this);
+        this.missions.x = this.stats.x + this.instructions.width/2 + this.missions.width;
+        this.missions.y = this.instructions.y ;
+
 		if(cc.audioEngine.getEffectsVolume() == 0){
 			this.sfx.selected();
-		}
+		} 
 
-        var backBox = new cc.LayerColor(new cc.Color(231,34,0,255),size.width*3/4, size.height*9/10);
-		backBox.x = size.width/2-backBox.width/2;
-		backBox.y = size.height/2 - backBox.height/2;
-		this.addChild(backBox,10);
+        this.ship = new Ship();
+        this.ship.x = size.width/2;
+        this.ship.y = gameVars.waterHeight + this.ship.height/2-this.ship.height/20;
+        this.addChild(this.ship, 10000);
 
-		var frontBox = new cc.LayerColor(new cc.Color(231,97,73,255),size.width*3/4-20, size.height*9/10-20);
-		frontBox.x = size.width/2-frontBox.width/2;
-		frontBox.y = size.height/2 - frontBox.height/2;
-		this.addChild(frontBox, 11);
+        var Title = new cc.LabelTTF("Sub Sink", "Arial", gameVars.menuTextSize);
+		Title.x = size.width/2;
+		Title.y = gameVars.waterHeight - Title.height*6/10;
+		Title.color = new cc.Color(255,255,255,255);
+		// Title.color = new cc.Color(142,35,35,255);
+//		Title.color = new cc.Color(205,96,144,255);
+		this.addChild(Title,1);		
 
-		var Title = new cc.LabelTTF("Sub Sink", "Arial", gameVars.menuTextSize);
-		Title.x = frontBox.width/2;
-		Title.y = frontBox.height- Title.height*3/4;
-		Title.color = new cc.Color(0,0,0,255);
-		frontBox.addChild(Title,1);
 
-		var moveInst = new cc.LabelTTF("Tilt your device side to side to move your ship.", "Arial", gameVars.instructTextSize);
-		var shootInst = new cc.LabelTTF("Tap the left side of the screen to shoot from the left of the ship and \nthe right side to shoot from the right.", "Arial", gameVars.instructTextSize);
-		var torpedoInst = new cc.LabelTTF("Don't get hit by the yellow torpedos the enemy subs shoot up at you", "Arial", gameVars.instructTextSize);
-		var careInst = new cc.LabelTTF("If you run out of ammo pick up a care package that the plane drops, \nbut if you wait too long they sink", "Arial", gameVars.instructTextSize);
-		var healthInst = new cc.LabelTTF("Some care packages contain supplies to repair your ship", "Arial", gameVars.instructTextSize);
-		var subPointInst = new cc.LabelTTF("Small subs are worth 1 point, long subs are worth 2.", "Arial", gameVars.instructTextSize);
-		var deeperPoints = new cc.LabelTTF("Subs that are deeper are worth an extra point.", "Arial", gameVars.instructTextSize);
-		var gameOverInst = new cc.LabelTTF("If you lose all your health, your ship will sink and the game is over", "Arial", gameVars.instructTextSize);
-
-		var labelArray = [moveInst, shootInst, torpedoInst, subPointInst, deeperPoints, careInst, healthInst, gameOverInst];
-		for (var i = 0; i < labelArray.length; i++) {
-			var bullet = new cc.Sprite(res.Bomb_png);
-			bullet.x = frontBox.width/30;
-			bullet.y = frontBox.height - frontBox.height*(i+1.75)/10.25;
-			frontBox.addChild(bullet,1);
-			labelArray[i].x = bullet.x + labelArray[i].width/2 + frontBox.width/30;
-			labelArray[i].y = bullet.y;
-			frontBox.addChild(labelArray[i],1);
-		};		
 
 		var start = new cc.MenuItemFont("Play",this.play);
-		start.x = frontBox.x + frontBox.width/2;
-		start.y = frontBox.y + frontBox.height/20;
+		start.x = size.width/2;
+		start.y = size.height/3;
 		start.fontSize = gameVars.buttonTextSize;
 		start.fontName = "Arial";
-		start.color = new cc.Color(0,0,0,255);
-		var menu = new cc.Menu(this.sfx, start);
+		start.color = new cc.Color(205,38,38,255);
+		var menu = new cc.Menu(this.sfx, this.instructions, this.stats,start, this.missions);
         menu.setPosition(cc.p(0,0));
         this.addChild(menu,50);
 
+        if (cc.sys.isMobile) {
+
+			AdMob = plugin.PluginManager.getInstance().loadPlugin("AdsAdmob");
+			m = {
+				"AdmobID" : "ca-app-pub-8852518520803638/2532134704",
+				"AdmobType" : "1",
+				"AdmobSizeEnum" : gameVars.adMobSizeEnum
+			};
+
+			AdMob.configDeveloperInfo(m);
+			AdMob.showAds(m, 4);
+		}
 	    if(cc.sys.capabilities.hasOwnProperty('keyboard') && !cc.sys.isMobile){
             cc.eventManager.addListener(
             {
@@ -73,10 +77,99 @@ var MenuLayer = cc.Layer.extend({
             },this);
 
         }
+        if(cc.sys.capabilities.hasOwnProperty('accelerometer')){
+            cc.inputManager.setAccelerometerInterval(1/60);
+            cc.inputManager.setAccelerometerEnabled(true);
+                                
+        }
+
+        this.accelListener = cc.EventListener.create({
+            event: cc.EventListener.ACCELERATION,
+            callback: function(acc, event){
+
+                var target = event.getCurrentTarget();
+                if (target.move) {
+                    target.move = false;
+                //  Processing logic here
+                    var ship = event.getCurrentTarget().ship
+                    var accel = acc.x - (acc.x *.5) ;
+                    var move = accel * target.size.width * .07;
+                    // if (cc.sys.os == "Android") {
+                    if (gameVars.speed == "Slower") {
+                        if(move>2.5){
+                            move = 2.5;
+                        }
+                        if(move< -2.5){
+                            move = -2.5;
+                        }
+                        if(Math.abs(move)<.75){
+                            move = 0;
+                        }
+                    }
+                    else if (gameVars.speed == "Faster") {
+
+                        if(move>6){
+                            move = 6;
+                        }
+                        if(move< -6){
+                            move = -6;
+                        }
+                        if(Math.abs(move)<.75){
+                            move = 0;
+                        }
+                    }
+                    else{
+
+                        if(move>4){
+                            move = 4;
+                        }
+                        if(move< -4){
+                            move = -4;
+                        }
+                        if(Math.abs(move)<.5){
+                            move = 0;
+                        }
+                    }
+                   // cc.log(move)
+
+                    ship.x = ship.x + move;
+                    if (ship.x - ship.width/2 <= 0){
+                        ship.x = ship.width/2 ;
+                    }
+                    if ( ship.x + ship.width/2 >= target.size.width){
+                        ship.x = target.size.width - ship.width/2;
+                    }
+                };   
+            }
+        });
+
+
+        if (cc.sys.isMobile) {
+            cc.eventManager.addListener(this.accelListener, this);
+        };
+        this.scheduleUpdate();
 	},
+    update:function(dt){
+        this.move = true;
+    },
 	play:function(){
-		cc.director.runScene(new GameScene());
+        if (cc.sys.isMobile) {
+    		AdMob.hideAds(m);
+		}
+        cc.director.runScene(new GameScene());
 	},
+	goInstructions:function(){
+		AdMob.hideAds(m);
+		cc.director.runScene(new InstructionsScene());
+	},
+    goStats:function(){
+        AdMob.hideAds(m);
+        cc.director.runScene(new StatsScene());
+    },
+    goMissions:function(){
+        //AdMob.hideAds(m);
+        cc.director.runScene(new MissionsScene());
+    },
 	changeSFX:function(){
 		if (cc.audioEngine.getEffectsVolume() == 1) {
 			this.sfx.selected();

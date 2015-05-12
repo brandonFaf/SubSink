@@ -8,6 +8,7 @@ var Sub = cc.Sprite.extend({
 	numOfTorpedos:0,
 	leftToShoot:0,
 	points:1,
+	subType:"",
 	ctor: function(img) {
 		this._super(img);
 		this.size = cc.winSize;

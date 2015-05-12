@@ -11,6 +11,7 @@ var ShortSub = Sub.extend({
 		this.shootTime = Math.random()*2+1;
  		this.numOfTorpedos = 1;
  		this.leftToShoot = this.numOfTorpedos;
+ 		this.subType = "Short";
 		this.scheduleUpdate();
 	}
 })

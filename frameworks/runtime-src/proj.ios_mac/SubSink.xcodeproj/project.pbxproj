@@ -66,6 +66,17 @@
 		7F8BC9091AA5388000A11EF6 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC8FF1AA5388000A11EF6 /* Icon-Small.png */; };
 		7F8BC90A1AA5388000A11EF6 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC9001AA5388000A11EF6 /* Icon-Small@2x.png */; };
 		7F8BC90B1AA5388000A11EF6 /* Icon-Small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F8BC9011AA5388000A11EF6 /* Icon-Small@3x.png */; };
+		7FA626FB1AD5A57400E24BC4 /* libPluginProtocol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA626F01AD5A51800E24BC4 /* libPluginProtocol.a */; };
+		7FA626FC1AD5A57A00E24BC4 /* libPluginAdmob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA626F61AD5A53600E24BC4 /* libPluginAdmob.a */; };
+		7FA626FE1AD5A5FD00E24BC4 /* jsb_pluginx.js in Resources */ = {isa = PBXBuildFile; fileRef = 7FA626FD1AD5A5FD00E24BC4 /* jsb_pluginx.js */; };
+		7FA627041AD5A7BD00E24BC4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA627031AD5A7BD00E24BC4 /* CoreVideo.framework */; };
+		7FA627061AD5A7CB00E24BC4 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA627051AD5A7CA00E24BC4 /* GameController.framework */; };
+		7FA627081AD5A7D500E24BC4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA627071AD5A7D500E24BC4 /* StoreKit.framework */; };
+		7FA6270A1AD5A7DD00E24BC4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA627091AD5A7DD00E24BC4 /* SystemConfiguration.framework */; };
+		7FA6270C1AD5A7E500E24BC4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA6270B1AD5A7E500E24BC4 /* CFNetwork.framework */; };
+		7FA6270E1AD5A7F000E24BC4 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA6270D1AD5A7F000E24BC4 /* AdSupport.framework */; };
+		7FA627101AD5A7F800E24BC4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA6270F1AD5A7F800E24BC4 /* MessageUI.framework */; };
+		7FA627121AD5A7FE00E24BC4 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA627111AD5A7FE00E24BC4 /* CoreTelephony.framework */; };
 		A92275421517C094001B78AA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275411517C094001B78AA /* QuartzCore.framework */; };
 		A92275441517C094001B78AA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275431517C094001B78AA /* OpenGLES.framework */; };
 		A92275461517C094001B78AA /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275451517C094001B78AA /* OpenAL.framework */; };
@@ -117,6 +128,34 @@
 			proxyType = 2;
 			remoteGlobalIDString = A07A4D641783777C0073F6A7;
 			remoteInfo = "cocos2dx iOS";
+		};
+		7FA626EF1AD5A51800E24BC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FA626EB1AD5A51800E24BC4 /* PluginProtocol.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA09A321168ADBC2008C1C7B;
+			remoteInfo = PluginProtocol;
+		};
+		7FA626F51AD5A53600E24BC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FA626F11AD5A53500E24BC4 /* PluginAdmob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FADC44A7176EA82000B2D5ED;
+			remoteInfo = PluginAdmob;
+		};
+		7FA626F71AD5A56200E24BC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FA626EB1AD5A51800E24BC4 /* PluginProtocol.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FA09A320168ADBC2008C1C7B;
+			remoteInfo = PluginProtocol;
+		};
+		7FA626F91AD5A56700E24BC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FA626F11AD5A53500E24BC4 /* PluginAdmob.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FADC44A6176EA82000B2D5ED;
+			remoteInfo = PluginAdmob;
 		};
 		C037820618BF76AF00FE4F13 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -204,7 +243,18 @@
 		7F8BC8FF1AA5388000A11EF6 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		7F8BC9001AA5388000A11EF6 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		7F8BC9011AA5388000A11EF6 /* Icon-Small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@3x.png"; sourceTree = "<group>"; };
-		A922753D1517C094001B78AA /* SubSink iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SubSink iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FA626EB1AD5A51800E24BC4 /* PluginProtocol.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PluginProtocol.xcodeproj; path = "../../js-bindings/cocos2d-x/plugin/protocols/proj.ios/PluginProtocol.xcodeproj"; sourceTree = "<group>"; };
+		7FA626F11AD5A53500E24BC4 /* PluginAdmob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PluginAdmob.xcodeproj; path = "../../js-bindings/cocos2d-x/plugin/plugins/admob/proj.ios/PluginAdmob.xcodeproj"; sourceTree = "<group>"; };
+		7FA626FD1AD5A5FD00E24BC4 /* jsb_pluginx.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jsb_pluginx.js; sourceTree = "<group>"; };
+		7FA627031AD5A7BD00E24BC4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/CoreVideo.framework; sourceTree = DEVELOPER_DIR; };
+		7FA627051AD5A7CA00E24BC4 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
+		7FA627071AD5A7D500E24BC4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		7FA627091AD5A7DD00E24BC4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		7FA6270B1AD5A7E500E24BC4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
+		7FA6270D1AD5A7F000E24BC4 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
+		7FA6270F1AD5A7F800E24BC4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
+		7FA627111AD5A7FE00E24BC4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		A922753D1517C094001B78AA /* SubSink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubSink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A92275411517C094001B78AA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A92275431517C094001B78AA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		A92275451517C094001B78AA /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -252,6 +302,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FA627121AD5A7FE00E24BC4 /* CoreTelephony.framework in Frameworks */,
+				7FA627101AD5A7F800E24BC4 /* MessageUI.framework in Frameworks */,
+				7FA6270E1AD5A7F000E24BC4 /* AdSupport.framework in Frameworks */,
+				7FA6270C1AD5A7E500E24BC4 /* CFNetwork.framework in Frameworks */,
+				7FA6270A1AD5A7DD00E24BC4 /* SystemConfiguration.framework in Frameworks */,
+				7FA627081AD5A7D500E24BC4 /* StoreKit.framework in Frameworks */,
+				7FA627061AD5A7CB00E24BC4 /* GameController.framework in Frameworks */,
+				7FA627041AD5A7BD00E24BC4 /* CoreVideo.framework in Frameworks */,
+				7FA626FC1AD5A57A00E24BC4 /* libPluginAdmob.a in Frameworks */,
+				7FA626FB1AD5A57400E24BC4 /* libPluginProtocol.a in Frameworks */,
 				BA4E718119EB6E3F00932425 /* MediaPlayer.framework in Frameworks */,
 				C037820C18BF77C500FE4F13 /* libjsbindings iOS.a in Frameworks */,
 				1A676839180E9C1E0076BC67 /* libcocos2d iOS.a in Frameworks */,
@@ -358,9 +418,28 @@
 			name = myIcons;
 			sourceTree = "<group>";
 		};
+		7FA626EC1AD5A51800E24BC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7FA626F01AD5A51800E24BC4 /* libPluginProtocol.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7FA626F21AD5A53500E24BC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7FA626F61AD5A53600E24BC4 /* libPluginAdmob.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A92275321517C094001B78AA = {
 			isa = PBXGroup;
 			children = (
+				7FA626FD1AD5A5FD00E24BC4 /* jsb_pluginx.js */,
+				7FA626F11AD5A53500E24BC4 /* PluginAdmob.xcodeproj */,
+				7FA626EB1AD5A51800E24BC4 /* PluginProtocol.xcodeproj */,
 				C037820118BF76AF00FE4F13 /* cocos2d_js_bindings.xcodeproj */,
 				1AC6FB34180E9ACB004C840B /* cocos2d_libs.xcodeproj */,
 				BAF426FA19484B3E002B22EF /* script */,
@@ -376,7 +455,7 @@
 		A922753E1517C094001B78AA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A922753D1517C094001B78AA /* SubSink iOS.app */,
+				A922753D1517C094001B78AA /* SubSink.app */,
 				509D4AAA17EBB24E00697056 /* SubSink Mac.app */,
 			);
 			name = Products;
@@ -385,6 +464,14 @@
 		A92275401517C094001B78AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7FA627111AD5A7FE00E24BC4 /* CoreTelephony.framework */,
+				7FA6270F1AD5A7F800E24BC4 /* MessageUI.framework */,
+				7FA6270D1AD5A7F000E24BC4 /* AdSupport.framework */,
+				7FA6270B1AD5A7E500E24BC4 /* CFNetwork.framework */,
+				7FA627091AD5A7DD00E24BC4 /* SystemConfiguration.framework */,
+				7FA627071AD5A7D500E24BC4 /* StoreKit.framework */,
+				7FA627051AD5A7CA00E24BC4 /* GameController.framework */,
+				7FA627031AD5A7BD00E24BC4 /* CoreVideo.framework */,
 				7F8BC8E41AA3D21000A11EF6 /* GameKit.framework */,
 				BA4E718219EB6E4600932425 /* GameController.framework */,
 				BA4E718019EB6E3E00932425 /* MediaPlayer.framework */,
@@ -467,9 +554,9 @@
 			productReference = 509D4AAA17EBB24E00697056 /* SubSink Mac.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A922753C1517C094001B78AA /* SubSink iOS */ = {
+		A922753C1517C094001B78AA /* SubSink */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "SubSink iOS" */;
+			buildConfigurationList = A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "SubSink" */;
 			buildPhases = (
 				A92275391517C094001B78AA /* Sources */,
 				A922753A1517C094001B78AA /* Frameworks */,
@@ -478,12 +565,14 @@
 			buildRules = (
 			);
 			dependencies = (
+				7FA626FA1AD5A56700E24BC4 /* PBXTargetDependency */,
+				7FA626F81AD5A56200E24BC4 /* PBXTargetDependency */,
 				C037820B18BF77BC00FE4F13 /* PBXTargetDependency */,
 				1A67682F180E9C110076BC67 /* PBXTargetDependency */,
 			);
-			name = "SubSink iOS";
+			name = SubSink;
 			productName = SubSink;
-			productReference = A922753D1517C094001B78AA /* SubSink iOS.app */;
+			productReference = A922753D1517C094001B78AA /* SubSink.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -523,10 +612,18 @@
 					ProductGroup = 1AC6FB35180E9ACB004C840B /* Products */;
 					ProjectRef = 1AC6FB34180E9ACB004C840B /* cocos2d_libs.xcodeproj */;
 				},
+				{
+					ProductGroup = 7FA626F21AD5A53500E24BC4 /* Products */;
+					ProjectRef = 7FA626F11AD5A53500E24BC4 /* PluginAdmob.xcodeproj */;
+				},
+				{
+					ProductGroup = 7FA626EC1AD5A51800E24BC4 /* Products */;
+					ProjectRef = 7FA626EB1AD5A51800E24BC4 /* PluginProtocol.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
-				A922753C1517C094001B78AA /* SubSink iOS */,
+				A922753C1517C094001B78AA /* SubSink */,
 				509D4A7517EBB24E00697056 /* SubSink Mac */,
 			);
 		};
@@ -545,6 +642,20 @@
 			fileType = archive.ar;
 			path = "libcocos2d iOS.a";
 			remoteRef = 1AC6FB55180E9ACB004C840B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7FA626F01AD5A51800E24BC4 /* libPluginProtocol.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPluginProtocol.a;
+			remoteRef = 7FA626EF1AD5A51800E24BC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7FA626F61AD5A53600E24BC4 /* libPluginAdmob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPluginAdmob.a;
+			remoteRef = 7FA626F51AD5A53600E24BC4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C037820718BF76AF00FE4F13 /* libjsbindings Mac.a */ = {
@@ -619,6 +730,7 @@
 				5091731C17ECDF7A00D62437 /* Icon-50.png in Resources */,
 				509D4AC417EBB2AB00697056 /* Icon-120.png in Resources */,
 				7F8BC9061AA5388000A11EF6 /* Icon-60@3x.png in Resources */,
+				7FA626FE1AD5A5FD00E24BC4 /* jsb_pluginx.js in Resources */,
 				5091731D17ECDF7A00D62437 /* Icon-58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -658,6 +770,16 @@
 			isa = PBXTargetDependency;
 			name = "cocos2dx iOS";
 			targetProxy = 1A67682E180E9C110076BC67 /* PBXContainerItemProxy */;
+		};
+		7FA626F81AD5A56200E24BC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PluginProtocol;
+			targetProxy = 7FA626F71AD5A56200E24BC4 /* PBXContainerItemProxy */;
+		};
+		7FA626FA1AD5A56700E24BC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PluginAdmob;
+			targetProxy = 7FA626F91AD5A56700E24BC4 /* PBXContainerItemProxy */;
 		};
 		C037820B18BF77BC00FE4F13 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -790,7 +912,7 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -820,7 +942,7 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -850,7 +972,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "SubSink iOS" */ = {
+		A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "SubSink" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A92277011517C097001B78AA /* Debug */,

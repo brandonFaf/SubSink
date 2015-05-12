@@ -32,6 +32,9 @@
         "src/CCPool.js",
         "src/SettingsScene.js",
         "src/GameVars.js",
-        "src/PauseLayer.js"
+        "src/PauseLayer.js",
+        "src/InstructionLayer.js",
+        "src/StatsLayer.js",
+        "src/LifetimeStatsLayer.js"
     ]
 }

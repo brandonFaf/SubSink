@@ -3,7 +3,8 @@
         "../../js-bindings",
         "../../js-bindings/cocos2d-x",
         "../../js-bindings/cocos2d-x/cocos",
-        "../../js-bindings/cocos2d-x/external"
+        "../../js-bindings/cocos2d-x/external",
+        "../../js-bindings/cocos2d-x/plugin/publish"
     ],
     "copy_resources": [
         {
@@ -25,6 +26,22 @@
         {
             "from": "../../js-bindings/bindings/script",
             "to": "script"
+        },
+        { 
+            "from": "../../js-bindings/cocos2d-x/plugin/jsbindings/script", 
+            "to": ""
+        },
+        { 
+            "from": "../../js-bindings/cocos2d-x/plugin/protocols/proj.android/src", 
+            "to": "../src"
+        },
+        { 
+            "from": "../../js-bindings/cocos2d-x/plugin/plugins/admob/proj.android/src", 
+            "to": "../src"
+        },
+        {
+            "from": "../../js-bindings/cocos2d-x/plugin/plugins/admob/proj.android/sdk", 
+            "to": "../libs"
         }
     ]
 }

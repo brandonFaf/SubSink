@@ -11,6 +11,7 @@ var LongSub = Sub.extend({
 		this.points = 2;
 		this.numOfTorpedos = 5;
 		this.leftToShoot = this.numOfTorpedos;
+		this.subType = "Long";
 		this.scheduleUpdate();	
 	}
 })

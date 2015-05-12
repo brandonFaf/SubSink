@@ -7,10 +7,10 @@ var GameVars = (function () {
     	var size = cc.winSize;
        if (isIpad) {
 	        var object = {
-	        	isIpad:false,
+	        	isIpad:true,
 	        	instructTextSize:23 * muiltiplier,
-				menuTextSize:70*muiltiplier,
-				buttonTextSize:45*muiltiplier,
+				menuTextSize:150*muiltiplier,
+				buttonTextSize:90*muiltiplier,
 				hudTextSize:22*muiltiplier,
 				waterHeight: size.height* 2/3,
 				packageFadeHeight:size.height *1/2,
@@ -20,7 +20,9 @@ var GameVars = (function () {
 				GOButtonTextSize:30*muiltiplier,
                 subPointsSize:26*muiltiplier,
                 levelSize:50*muiltiplier,
-                speed:"Normal"
+                speed:"Normal",
+                adMobSizeEnum: "4",
+                instructionsTextSize:70*muiltiplier
 
 
 	        };
@@ -30,18 +32,21 @@ var GameVars = (function () {
     		var object = {
 	        	isIpad:false,
 	        	instructTextSize:18,
-				menuTextSize:40,
-				buttonTextSize:32,
+				menuTextSize:120,
+				buttonTextSize:64,
 				hudTextSize:16,
 				waterHeight:size.height*5/6,
 				packageFadeHeight:size.height*2/3,
 				gameOverTitleSize:35,
-				gameOverLabelSize:25,
+				gameOverLabelSize:28,
 				GOButtonRatio:1/10,
 				GOButtonTextSize:20,
                 subPointsSize:22,
                 levelSize:30*muiltiplier,
-                speed:"Normal"
+                speed:"Normal",
+                adMobSizeEnum:"1",
+                instructionsTextSize:40
+
         	};
         	return object;
     	}
