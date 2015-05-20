@@ -22,6 +22,9 @@ var GameLayer = cc.Layer.extend({
     sunkSinceLastMiss:0,
     activeQue:null,
     readyToRemove:null,
+    //goalTimer:0,
+    sunkInTime:0,
+    lastSecond:0,
     ctor: function(){
 		this._super();
 
@@ -102,7 +105,17 @@ cc.audioEngine.setEffectsVolume(0);
         if(!this.isPause){
             this.stats.timePlayed += dt;
             this.timeSinceLastHit += dt;
+            //this.goalTimer += dt;
         }
+
+        if (!this.stats.missionPassed && this.lastSecond != Math.floor(this.stats.timePlayed) && Math.floor(this.stats.timePlayed) % this.secondary == 0) {
+            this.timeUp = true;
+            this.checkMisison();
+            this.sunkInTime = 0;
+        };
+
+        this.lastSecond = Math.floor(this.stats.timePlayed);
+
         if(this._subs.length < this.minSubs){
             this.wave++;
             for (var i = 0; i < this.subsToAdd; i++) {
@@ -154,10 +167,10 @@ cc.audioEngine.setEffectsVolume(0);
                             var bmb = this.activeQue.dequeue();
                             this.readyToRemove.dequeue();
                             if (bmb.isHit) {
-                                sunkSinceLastMiss++;
+                                this.sunkSinceLastMiss++;
                             }
                             else{
-                                sunkSinceLastMiss = 0;
+                                this.sunkSinceLastMiss = 0;
                             }
 
                         } 
@@ -184,6 +197,7 @@ cc.audioEngine.setEffectsVolume(0);
                         pointsLabel.runAction(new cc.Sequence(new cc.FadeOut(1.2), new cc.CallFunc(this.removeChild, this, pointsLabel)));
                         this.score+= sub.points;
                         this.sunkSinceLastHit++;
+                        this.sunkInTime++;
                         cc.pool.putInPool(sub);
                         if (sub.subType == "Short") {
                             this.stats.totalShortSubs++;
@@ -427,22 +441,23 @@ cc.audioEngine.setEffectsVolume(0);
             case 3: //"Sink " + mission.goal + " subs without missing."
                 if(this.sunkSinceLastMiss >= this.goal){
                     this.stats.missionPassed = true;
-                    //this.missionLevel++;
-                    //ls.setItem("MissionLevel", this.missionLevel);
+                    this.missionLevel++;
+                    ls.setItem("MissionLevel", this.missionLevel);
                 }
                 break;
             case 4: //"Sink " + mission.goal + " subs in " + parseInt(level/7)+1 *5 + " seconds"
-                if(this.timeUp && totalSunk >= this.goal){
+                if(this.timeUp && this.sunkInTime >= this.goal){
                     this.stats.missionPassed = true;
-                    // this.missionLevel++;
-                    // ls.setItem("MissionLevel", this.missionLevel);
+                    this.missionLevel++;
+                    ls.setItem("MissionLevel", this.missionLevel);
                     }
+                this.timeUp = false;
                 break;
             case 5: //"Score " + mission.goal+ " points in one game"
-                if (this.ship.health == 0 && (this.stats.totalShortSubs + this.stats.totalLongSubs) >= this.goal) {
+                if (this.score >= this.goal) {
                     this.stats.missionPassed = true;
-                    // this.missionLevel++;
-                    // ls.setItem("MissionLevel", this.missionLevel);
+                     this.missionLevel++;
+                     ls.setItem("MissionLevel", this.missionLevel);
                 };
                 break;
             case 6: //"Score a total of " + mission.goal + " points.
