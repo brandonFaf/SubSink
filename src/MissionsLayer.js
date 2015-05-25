@@ -23,34 +23,34 @@ var MissionsLayer = cc.Layer.extend({
 		var level = ls.getItem("MissionLevel") <= null ? 1 : ls.getItem("MissionLevel") ;
 		var mission = {};
 		switch(level % 7){
-			case 1:
+			case 0:
 				mission.goal = parseInt(level/7)+1 *5;
 				mission.text = "Survive " + mission.goal + " seconds without getting hit.";
 				break;
-			case 2:
+			case 1:
 				mission.goal = parseInt(level/7)+1 *3
 				mission.text = "Sink " +mission.goal+ " subs without getting hit.";
 				break;
-			case 3:
+			case 2:
 				mission.goal = parseInt(level/7)+1 *2
 				mission.text = "Sink " + mission.goal + " subs without missing.";
 				break;
-			case 4:
+			case 3:
 				mission.goal = parseInt(level/7)+1 *2;
 				mission.secondary = parseInt(level/7)+1 *5 ;
 				mission.text = "Sink " + mission.goal + " subs in " + mission.secondary + " seconds";
 				break;
-			case 5:
+			case 4:
 				mission.goal = parseInt(level/7)+1 *5
 				mission.text = "Score " + mission.goal+ " points in one game";
 				break;
-			case 6:
+			case 5:
 				mission.goal = parseInt(level/7)+1 *5
 				mission.text = "Score a total of " + mission.goal + " points.";
 				break;
-			case 7:
+			case 6:
 				mission.goal = parseInt(level/7)+1 *5
-				mission.text = "Play " + mission.goal+ "games";
+				mission.text = "Play " + mission.goal+ " games";
 				break;
 			default:
 				break; 

@@ -42,7 +42,8 @@ cc.audioEngine.setEffectsVolume(0);
         var ls = cc.sys.localStorage;
         this.missionLevel = ls.getItem("MissionLevel") <= null ? 1 : ls.getItem("MissionLevel") ;
         this.goal =  parseInt(ls.getItem("MissionGoal"));
-        this.secondary = parseInt(ls.getItem("MissionSecondary")); 
+        this.secondary = isNaN(parseInt(ls.getItem("MissionSecondary"))) ? 0 : parseInt(ls.getItem("MissionSecondary"));
+
 
 		//get WinSize
 		this.size = cc.winSize;
@@ -307,7 +308,7 @@ cc.audioEngine.setEffectsVolume(0);
                     else{
                         this.stats.healthCollected++;
                     }
-                    this.ship.checkShipHealth();
+//this.ship.checkShipHealth();
                     this.getChildByTag(this.ship.health).visible = true;
                     this.ammoLabel.setString("Ammo: " + this.ship.ammo);
                     this._carePackages[i].removeFromParent(true);
@@ -424,48 +425,67 @@ cc.audioEngine.setEffectsVolume(0);
         var ls = cc.sys.localStorage;
         var totalSunk = this.stats.totalShortSubs + this.stats.totalLongSubs;
         switch(this.missionLevel % 7){
-            case 1: //"Start a game by surviving " + mission.goal " + seconds without getting hit."
+            case 0: //"Start a game by surviving " + mission.goal " + seconds without getting hit."
                 if(this.timeSinceLastHit >= this.goal){
                     this.stats.missionPassed = true;
                     this.missionLevel++;
                     ls.setItem("MissionLevel", this.missionLevel);
                 }
                 break;
-            case 2: //"Sink " +mission.goal+ " subs without getting hit."
+            case 1: //"Sink " +mission.goal+ " subs without getting hit."
                 if(this.sunkSinceLastHit >= this.goal){
                     this.stats.missionPassed = true;
                     this.missionLevel++;
                     ls.setItem("MissionLevel", this.missionLevel);
                 }
                 break;
-            case 3: //"Sink " + mission.goal + " subs without missing."
+            case 2: //"Sink " + mission.goal + " subs without missing."
                 if(this.sunkSinceLastMiss >= this.goal){
                     this.stats.missionPassed = true;
                     this.missionLevel++;
                     ls.setItem("MissionLevel", this.missionLevel);
                 }
                 break;
-            case 4: //"Sink " + mission.goal + " subs in " + parseInt(level/7)+1 *5 + " seconds"
+            case 3: //"Sink " + mission.goal + " subs in " + parseInt(level/7)+1 *5 + " seconds"
                 if(this.timeUp && this.sunkInTime >= this.goal){
                     this.stats.missionPassed = true;
                     this.missionLevel++;
                     ls.setItem("MissionLevel", this.missionLevel);
+                    ls.setItem("MissionSecondary",0);
+
                     }
                 this.timeUp = false;
                 break;
-            case 5: //"Score " + mission.goal+ " points in one game"
+            case 4: //"Score " + mission.goal+ " points in one game"
                 if (this.score >= this.goal) {
                     this.stats.missionPassed = true;
                      this.missionLevel++;
                      ls.setItem("MissionLevel", this.missionLevel);
                 };
                 break;
-            case 6: //"Score a total of " + mission.goal + " points.
-            case 7://"Play " + mission.goal+ "games"
+            case 5: //"Score a total of " + mission.goal + " points.
+                if (this.ship.health == 0) {
+                    this.secondary += this.score;
+                    ls.setItem("MissionSecondary",this.secondary);
+
+                };
                 if(this.secondary >= this.goal){
                     this.stats.missionPassed = true;
-                    // this.missionLevel++;
-                    // ls.setItem("MissionLevel", this.missionLevel);
+                    ls.setItem("MissionSecondary",0);
+                    this.missionLevel++;
+                    ls.setItem("MissionLevel", this.missionLevel);
+                }
+                break;
+            case 6://"Play " + mission.goal+ "games"
+                if (this.ship.health == 0) {
+                    this.secondary ++;
+                    ls.setItem("MissionSecondary",this.secondary);
+                };
+                if(this.secondary >= this.goal){
+                    this.stats.missionPassed = true;
+                    ls.setItem("MissionSecondary",0);
+                    this.missionLevel++;
+                    ls.setItem("MissionLevel", this.missionLevel);
                 }
                 break;
             default:
