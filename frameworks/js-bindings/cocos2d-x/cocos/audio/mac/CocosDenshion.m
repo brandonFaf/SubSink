@@ -379,7 +379,7 @@ static BOOL _mixerRateSet = NO;
             mute_ = NO;
             enabled_ = YES;
             //Test whether get gain works for sources
-            [self _testGetGain];
+            //[self _testGetGain];
         } else {
             //Something went wrong with OpenAL
             functioning_ = NO;

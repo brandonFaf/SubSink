@@ -56,6 +56,7 @@ cc.game.onStart = function(){
     {
         var searchPaths = jsb.fileUtils.getSearchPaths();
         var winSize = cc.director.getWinSize();
+        cc.log("hiya!"+winSize.width);
         if(winSize.width == 2048){
             cc.view.setDesignResolutionSize(2048, 1536, cc.ResolutionPolicy.EXACT_FIT);
             searchPaths.push("res/extraLarge/");
@@ -76,6 +77,7 @@ cc.game.onStart = function(){
         }
         else if(winSize.width == 960){
             cc.view.setDesignResolutionSize(960, 640, cc.ResolutionPolicy.EXACT_FIT);
+            cc.log("here");
             searchPaths.push("res/small/");
             searchPaths.push("src");
         }

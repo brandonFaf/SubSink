@@ -35,6 +35,8 @@
         "src/PauseLayer.js",
         "src/InstructionLayer.js",
         "src/StatsLayer.js",
-        "src/LifetimeStatsLayer.js"
+        "src/LifetimeStatsLayer.js",
+        "src/MissionsLayer.js",
+        "src/Queue.src.js"
     ]
 }

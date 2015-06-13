@@ -95,7 +95,6 @@ var StatsLayer = cc.Layer.extend({
 		ls.setItem("totalLongSubs", parseInt(totalLongSubs)+ stats.totalLongSubs) 
 		ls.setItem("totalShortSubs", parseInt(totalShortSubs)+ stats.totalShortSubs)
 		ls.setItem("score", parseInt(totalScore)+ score)
-		ls.setItem("accuracy", (parseInt(accuracy) + stats.accuracy)/2)
 		cc.log("stats.accuracy = "+stats.accuracy)
 		cc.log((accuracy + stats.accuracy)/2)
 

@@ -74,6 +74,15 @@ var GameOverLayer = cc.Layer.extend({
 			ls.setItem("HighScore", score);
 		}
 
+		var gamesPlayed = ls.getItem("gamesPlayed");
+		if (gamesPlayed == null) {
+			gamesPlayed = 0;
+		};
+		gamesPlayed++;
+		stats.gamesPlayed = gamesPlayed;
+		ls.setItem("gamesPlayed", parseInt(stats.gamesPlayed));
+
+
 		var numHSLabel = new cc.LabelTTF(hs.toString(), "Arial", gameVars.gameOverLabelSize);
 		numHSLabel.x = wordHSLabel.x;
 		numHSLabel.y = wordHSLabel.y - wordHSLabel.height;
@@ -89,9 +98,20 @@ var GameOverLayer = cc.Layer.extend({
 		this.lifetimeStats.backButton.visible = false;
 		this.addChild(this.lifetimeStats);
 
+		this.missionLayer = new MissionsLayer();
+		this.missionLayer.x = -this.size.width
+		this.missionLayer.backButton.visible = false;
+		this.addChild(this.missionLayer);
+
 		if (stats.missionPassed) {
+			this.x += this.size.width;
+
+			this.missionLayer.titleLabel.string = "New Mission"
+			
+
+
 			var check = new cc.Sprite(res.Accomplished);
-			check.x = size.width/2;
+			check.x = -size.width/2;
 			check.y = size.height/2;
 			check.opacity = 150;
 			check.runAction(new cc.FadeOut(1.6))
@@ -172,11 +192,11 @@ var GameOverLayer = cc.Layer.extend({
 		
 	},
 	play:function(){		
-		//AdMob.hideAds(m);
+		AdMob.hideAds(m);
 		cc.director.runScene(new GameScene());
 	},
 	instructions:function(){
-		//AdMob.hideAds(m);
+		AdMob.hideAds(m);
 		cc.director.runScene(new MenuScene());
 	}
 });

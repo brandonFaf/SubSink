@@ -1,4 +1,5 @@
 var MissionsLayer = cc.Layer.extend({
+	backButton:null,
 	ctor: function(){
 		this._super()
 		var size = cc.winSize;
@@ -13,62 +14,79 @@ var MissionsLayer = cc.Layer.extend({
 		frontBox.y = size.height/2 - frontBox.height/2;
 		this.addChild(frontBox, 11);
 
-		var gameOverLabel = new cc.LabelTTF("Misisons", "Arial", gameVars.gameOverTitleSize );
-		gameOverLabel.x = frontBox.width/2;
-		gameOverLabel.y = frontBox.height- gameOverLabel.height*3/5;
-		gameOverLabel.color = new cc.Color(0,0,0,255);
-		frontBox.addChild(gameOverLabel,1);
+		this.titleLabel = new cc.LabelTTF("Misisons", "Arial", gameVars.gameOverTitleSize );
+		this.titleLabel.x = frontBox.width/2;
+		this.titleLabel.y = frontBox.height- this.titleLabel.height*3/5;
+		this.titleLabel.color = new cc.Color(0,0,0,255);
+		frontBox.addChild(this.titleLabel,1);
 
 		var ls = cc.sys.localStorage;
-		var level = ls.getItem("MissionLevel") <= null ? 1 : ls.getItem("MissionLevel") ;
+		var level = ls.getItem("MissionLevel") <= null ? 0 : ls.getItem("MissionLevel") ;
+		var secondary = ls.getItem("MissionSecondary") == "undefined" ? 0: ls.getItem("MissionSecondary");
+		cc.log(level + " - " + secondary)
+
 		var mission = {};
+		cc.log(level);
 		switch(level % 7){
 			case 0:
-				mission.goal = parseInt(level/7)+1 *5;
+				var multiplier = ((parseInt(level/7)+1))
+				mission.goal = (multiplier * multiplier)+5;
 				mission.text = "Survive " + mission.goal + " seconds without getting hit.";
 				break;
 			case 1:
-				mission.goal = parseInt(level/7)+1 *3
+				mission.goal = (parseInt(level/7)+1) *2
 				mission.text = "Sink " +mission.goal+ " subs without getting hit.";
 				break;
 			case 2:
-				mission.goal = parseInt(level/7)+1 *2
+				mission.goal = (parseInt(level/7)+1) *2
 				mission.text = "Sink " + mission.goal + " subs without missing.";
 				break;
 			case 3:
-				mission.goal = parseInt(level/7)+1 *2;
-				mission.secondary = parseInt(level/7)+1 *5 ;
+				mission.goal = (parseInt(level/7)+1) *4;
+				mission.secondary = (parseInt(level/21)+1) *30 ;
 				mission.text = "Sink " + mission.goal + " subs in " + mission.secondary + " seconds";
 				break;
 			case 4:
-				mission.goal = parseInt(level/7)+1 *5
+				var multiplier = ((parseInt(level/7)+1))
+				mission.goal = (multiplier * multiplier)+10;
 				mission.text = "Score " + mission.goal+ " points in one game";
 				break;
 			case 5:
-				mission.goal = parseInt(level/7)+1 *5
-				mission.text = "Score a total of " + mission.goal + " points.";
+				var multiplier = ((parseInt(level/7)+1))
+				mission.goal = ((multiplier * multiplier)*5)+10;
+				mission.text = "Score a total of " + mission.goal + " points."; 
+				mission.progress = "Progress: " + secondary + "/"+mission.goal;
 				break;
 			case 6:
-				mission.goal = parseInt(level/7)+1 *5
-				mission.text = "Play " + mission.goal+ " games";
+				mission.goal = (parseInt(level/7)+1) *5
+				mission.text = "Play " + mission.goal+ " games"; 
+				mission.progress = "Progress: " + secondary + "/"+mission.goal;
 				break;
 			default:
 				break; 
 		}
 		ls.setItem("MissionGoal", mission.goal);
-		ls.setItem("MissionSecondary", mission.secondary);
+		if (mission.secondary != undefined) {
+			ls.setItem("MissionSecondary", mission.secondary);
+		};
 		var missionText = new cc.LabelTTF(mission.text, "Arial", gameVars.instructTextSize);
 		missionText.x = frontBox.width/2;
 		missionText.y = frontBox.height/2
 		missionText.color = new cc.Color(0,0,0,255);
 		frontBox.addChild(missionText,10);
 
+		var progressText = new cc.LabelTTF(mission.progress, "Arial", gameVars.instructTextSize);
+		progressText.x = frontBox.width/2;
+		progressText.y = frontBox.height/2 - missionText.height;
+		progressText.color = new cc.Color(0,0,0,255);
+		frontBox.addChild(progressText,10);
 
-		var backButton = new cc.MenuItemImage(res.Arrow, res.Arrow, this.back);
-		backButton.setPosition(cc.p(backButton.width*3/4, size.height-backButton.height*3/4));
-		backButton.flippedX = true;
 
-		var menu = new cc.Menu(backButton);
+		this.backButton = new cc.MenuItemImage(res.Arrow, res.Arrow, this.back);
+		this.backButton.setPosition(cc.p(this.backButton.width*3/4, size.height-this.backButton.height*3/4));
+		this.backButton.flippedX = true;
+
+		var menu = new cc.Menu(this.backButton);
         menu.setPosition(cc.p(0,0));
         this.addChild(menu,50);
 

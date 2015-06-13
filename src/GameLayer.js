@@ -31,7 +31,7 @@ var GameLayer = cc.Layer.extend({
         this.activeQue = new Queue();
         this.readyToRemove = new Queue();
 
-cc.audioEngine.setEffectsVolume(0);
+//cc.audioEngine.setEffectsVolume(0);
 
         this.gameVars = GameVars.getInstance();
         cc.audioEngine.playMusic(res.GameMusic, true);
@@ -40,7 +40,7 @@ cc.audioEngine.setEffectsVolume(0);
         this.sunkSinceLastHit = 0;
 
         var ls = cc.sys.localStorage;
-        this.missionLevel = ls.getItem("MissionLevel") <= null ? 1 : ls.getItem("MissionLevel") ;
+        this.missionLevel = ls.getItem("MissionLevel") <= null ? 0 : ls.getItem("MissionLevel") ;
         this.goal =  parseInt(ls.getItem("MissionGoal"));
         this.secondary = isNaN(parseInt(ls.getItem("MissionSecondary"))) ? 0 : parseInt(ls.getItem("MissionSecondary"));
 
@@ -67,8 +67,8 @@ cc.audioEngine.setEffectsVolume(0);
         this.ship.y = this.gameVars.waterHeight + this.ship.height/2-this.ship.height/20;
         
         this.ship.ammo = 5;
-        this.ship.health = 2;
-        this.ship.maxHealth = 2;
+        this.ship.health = 5;
+        this.ship.maxHealth = 5;
         this.ship.retain();
         this.addChild(this.ship, 10);
 
@@ -249,7 +249,7 @@ cc.audioEngine.setEffectsVolume(0);
 
                 this.ship.health --;
                 this._torpedos.splice(i,1);
-                //this.ship.checkShipHealth()
+                this.ship.checkShipHealth()
                 if (!this.stats.missionPassed) {
                     this.checkMisison();
                 };
@@ -271,7 +271,7 @@ cc.audioEngine.setEffectsVolume(0);
                 this.removeChild(this.pauseButtonLabel);
                 this.removeChild(this.pauseButtonLayer);
                 this.removeChild(this.ammoLabel);
-                
+
         
                 this.scheduleOnce(function(){
                     var moreLabel = new cc.LabelTTF("Swipe right to see more", "Arial", this.gameVars.gameOverLabelSize);
@@ -308,7 +308,7 @@ cc.audioEngine.setEffectsVolume(0);
                     else{
                         this.stats.healthCollected++;
                     }
-//this.ship.checkShipHealth();
+                    this.ship.checkShipHealth();
                     this.getChildByTag(this.ship.health).visible = true;
                     this.ammoLabel.setString("Ammo: " + this.ship.ammo);
                     this._carePackages[i].removeFromParent(true);
@@ -330,7 +330,7 @@ cc.audioEngine.setEffectsVolume(0);
                     else{
                         this.stats.healthCollected++;
                     }
-                    //this.ship.checkShipHealth();
+                    this.ship.checkShipHealth();
                     this.getChildByTag(this.ship.health).visible = true;
                     this._carePackages[i].removeFromParent(true);
                     this._carePackages.splice(i,1);
@@ -424,6 +424,10 @@ cc.audioEngine.setEffectsVolume(0);
     checkMisison:function(){
         var ls = cc.sys.localStorage;
         var totalSunk = this.stats.totalShortSubs + this.stats.totalLongSubs;
+        cc.log("checkMisison " + this.missionLevel);
+        cc.log("mission passed " + this.missionPassed)
+        cc.log("Sunk since last miss " + this.sunkSinceLastMiss);
+        cc.log("goal "+ this.goal);
         switch(this.missionLevel % 7){
             case 0: //"Start a game by surviving " + mission.goal " + seconds without getting hit."
                 if(this.timeSinceLastHit >= this.goal){
@@ -441,13 +445,14 @@ cc.audioEngine.setEffectsVolume(0);
                 break;
             case 2: //"Sink " + mission.goal + " subs without missing."
                 if(this.sunkSinceLastMiss >= this.goal){
+                    cc.log("cleared mission 2");
                     this.stats.missionPassed = true;
                     this.missionLevel++;
                     ls.setItem("MissionLevel", this.missionLevel);
                 }
                 break;
             case 3: //"Sink " + mission.goal + " subs in " + parseInt(level/7)+1 *5 + " seconds"
-                if(this.timeUp && this.sunkInTime >= this.goal){
+                if((this.timeUp || this.ship.health == 0) && this.sunkInTime >= this.goal){
                     this.stats.missionPassed = true;
                     this.missionLevel++;
                     ls.setItem("MissionLevel", this.missionLevel);
@@ -673,7 +678,7 @@ cc.audioEngine.setEffectsVolume(0);
                         target.ship.ammo--;
                         target.ammoLabel.setString("Ammo: " + target.ship.ammo);
                         target.stats.shotsTaken++
-
+                        target.activeQue.enqueue(bomb);
                     };
 
                     return true;

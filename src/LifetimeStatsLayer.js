@@ -21,13 +21,14 @@ var LifetimeStatsLayer = cc.Layer.extend({
 		frontBox.addChild(gameOverLabel,1);
 
 		var ls = cc.sys.localStorage;
-		var shotsTaken = ls.getItem("shotsTaken") == null ? "0" : ls.getItem("shotsTaken"); 
-		var shotsLanded = ls.getItem("shotsLanded") == null ? "0" : ls.getItem("shotsLanded"); 
-		var timePlayed = ls.getItem("timePlayed") == null ? "0" : ls.getItem("timePlayed"); 
-		var totalLongSubs = ls.getItem("totalLongSubs") == null ? "0" : ls.getItem("totalLongSubs"); 
-		var totalShortSubs = ls.getItem("totalShortSubs") == null ? "0" : ls.getItem("totalShortSubs"); 
-		var score = ls.getItem("score") == null ? "0" : ls.getItem("score"); 
-		var accuracy = ls.getItem("accuracy") == null ? "0" : ls.getItem("accuracy"); 
+		var shotsTaken = isNaN(parseInt(ls.getItem("shotsTaken")))  ? "0" : ls.getItem("shotsTaken"); 
+		var shotsLanded = isNaN(parseInt(ls.getItem("shotsLanded")))  ? "0" : ls.getItem("shotsLanded"); 
+		var timePlayed = isNaN(parseInt(ls.getItem("timePlayed")))  ? "0" : ls.getItem("timePlayed"); 
+		var totalLongSubs = isNaN(parseInt(ls.getItem("totalLongSubs")))  ? "0" : ls.getItem("totalLongSubs"); 
+		var totalShortSubs = isNaN(parseInt(ls.getItem("totalShortSubs")))  ? "0" : ls.getItem("totalShortSubs"); 
+		var score = isNaN(parseInt(ls.getItem("score")))  ? "0" : ls.getItem("score"); 
+		var accuracy = shotsTaken == "0" ? "0" : (parseInt(shotsLanded) / parseInt(shotsTaken)).toFixed(2)*100;
+		var gamesPlayed = isNaN(parseInt(ls.getItem("gamesPlayed")))  ? "0" : ls.getItem("gamesPlayed");
 
 		var shotsTakenLabel = new cc.LabelTTF();
 		shotsTakenLabel.string = "Shots Taken";
@@ -71,9 +72,15 @@ var LifetimeStatsLayer = cc.Layer.extend({
 		var numScoreLabel = new cc.LabelTTF();
 		numScoreLabel.string = score;
 
+		var gamesPlayedLabel = new cc.LabelTTF();
+		gamesPlayedLabel.string = "Games Played";
+
+		var numGamesPlayedLabel = new cc.LabelTTF();
+		numGamesPlayedLabel.string = gamesPlayed;
+
 		var labels = [[shotsTakenLabel, numShotsTakenLabel], [accuracyLabel,numAccuracyLabel], [shotsLandedLabel,numShotsLandedLabel],
 					  [longSubsLabel,numLongSubsLabel], [timePlayedLabel,numTimePlayedLabel], [shortSubsLabel,numShortSubsLabel],
-					  [scoreLabel, numScoreLabel]];
+					  [scoreLabel, numScoreLabel], [gamesPlayedLabel, numGamesPlayedLabel]];
 
 		var col = 1
 		for(var i = 0; i < labels.length; i++){
@@ -85,8 +92,10 @@ var LifetimeStatsLayer = cc.Layer.extend({
 				frontBox.addChild(label[j]);
 			};
 
-			label[0].x = frontBox.width*((i+1)%3)/3 +frontBox.width/6;
-			label[0].y = frontBox.height*4/5 - parseInt(i/3) * label[1].height*2.5;
+			var spacer = i>= labels.length-2 ? i+1 : i;
+
+			label[0].x = frontBox.width*((spacer+1)%3)/3 +frontBox.width/6;
+			label[0].y = frontBox.height*4/5 - parseInt(spacer/3) * label[1].height*2.5;
 			
 
 			label[1].x = label[0].x;

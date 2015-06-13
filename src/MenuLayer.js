@@ -94,7 +94,6 @@ var MenuLayer = cc.Layer.extend({
                     var ship = event.getCurrentTarget().ship
                     var accel = acc.x - (acc.x *.5) ;
                     var move = accel * target.size.width * .07;
-                    // if (cc.sys.os == "Android") {
                     if (gameVars.speed == "Slower") {
                         if(move>2.5){
                             move = 2.5;
@@ -167,7 +166,7 @@ var MenuLayer = cc.Layer.extend({
         cc.director.runScene(new StatsScene());
     },
     goMissions:function(){
-        //AdMob.hideAds(m);
+ //       AdMob.hideAds(m);
         cc.director.runScene(new MissionsScene());
     },
 	changeSFX:function(){
