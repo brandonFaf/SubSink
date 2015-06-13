@@ -1,13 +1,17 @@
 var GameOverLayer = cc.Layer.extend({
-	stage:0,
+	stage:1,
 	ctor: function(score, stats){
 		this._super();
-		var size = this.size = cc.winSize;
+		var size = cc.winSize;
+		this.size = cc.winSize;
+		this.moveLayer = new cc.Layer();
+		this.moveLayer.setPosition(cc.p(0,0));
+		this.addChild(this.moveLayer);
 		var gameVars = GameVars.getInstance();
 		this.backBox = new cc.LayerColor(new cc.Color(231,34,0,255),size.width*1/3, gameVars.waterHeight*9/10);
 		this.backBox.x = size.width/2-this.backBox.width/2;
 		this.backBox.y = size.height/2 - this.backBox.height/2;
-		this.addChild(this.backBox,10);
+		this.moveLayer.addChild(this.backBox,10);
 
 		var frontBox = new cc.LayerColor(new cc.Color(231,97,73,255),size.width*1/3-20, gameVars.waterHeight*9/10-20);
 		frontBox.x = this.backBox.width/2 - frontBox.width/2;
@@ -55,6 +59,19 @@ var GameOverLayer = cc.Layer.extend({
 		instruct.y = frontBox.y + instructBox.y + instructBox.height/2;
 		instruct.fontName = "Arial";
 		//instruct.color = new cc.Color(0, 0, 0,255);
+
+		this.leftArrow = new cc.MenuItemImage(res.Arrow, res.Arrow, this.moveLeft,this);
+		this.leftArrow.setPosition(cc.p(this.leftArrow.width*3/4, size.height/2));
+		this.leftArrow.flippedX = true;
+
+		this.rightArrow = new cc.MenuItemImage(res.Arrow, res.Arrow, this.moveRight, this);
+		this.rightArrow.setPosition(cc.p( size.width - this.rightArrow.width*3/4, size.height/2));
+		this.rightArrow.rotationY = 180;
+
+		var arrowMenu = new cc.Menu(this.leftArrow, this.rightArrow);
+		arrowMenu.setPosition(cc.p(0,0));
+		this.addChild(arrowMenu,50);
+
 		var menu = new cc.Menu(instruct, start);
         menu.setPosition(cc.p(0,0));
         this.backBox.addChild(menu,50);
@@ -91,17 +108,17 @@ var GameOverLayer = cc.Layer.extend({
 
 		this.statsLayer = new StatsLayer(stats, score);
 		this.statsLayer.x = this.size.width;
-		this.addChild(this.statsLayer);
+		this.moveLayer.addChild(this.statsLayer);
 
 		this.lifetimeStats = new LifetimeStatsLayer();
 		this.lifetimeStats.x = this.size.width*2;
 		this.lifetimeStats.backButton.visible = false;
-		this.addChild(this.lifetimeStats);
+		this.moveLayer.addChild(this.lifetimeStats);
 
 		this.missionLayer = new MissionsLayer();
 		this.missionLayer.x = -this.size.width
 		this.missionLayer.backButton.visible = false;
-		this.addChild(this.missionLayer);
+		this.moveLayer.addChild(this.missionLayer);
 
 		if (stats.missionPassed) {
 			this.x += this.size.width;
@@ -156,35 +173,35 @@ var GameOverLayer = cc.Layer.extend({
             cc.eventManager.addListener({
                 event: cc.EventListener.TOUCH_ALL_AT_ONCE,
                 onTouchesMoved: function(touches, event) {
-                	var touch = touches[0];
-                	var loc = touch.getLocation()
-		            //Move the position of current button sprite
-		            var target = event.getCurrentTarget();
-		            var delta = touch.getDelta();
-		            target.x += delta.x;
-		            if (target.x>0) {
-		            	target.x = 0
-		            };
-		            if (target.x< -target.size.width * 2&& delta.x<0) {
-		            	target.x = -target.size.width * 2
-		            };
-		            return true;
+              //   	var touch = touches[0];
+              //   	var loc = touch.getLocation()
+		            // //Move the position of current button sprite
+		            // var target = event.getCurrentTarget();
+		            // var delta = touch.getDelta();
+		            // target.x += delta.x;
+		            // if (target.x>0) {
+		            // 	target.x = 0
+		            // };
+		            // if (target.x< -target.size.width * 2&& delta.x<0) {
+		            // 	target.x = -target.size.width * 2
+		            // };
+		            // return true;
 		            
 		        },
 		        onTouchesEnded: function(touches, event){
-		            var target = event.getCurrentTarget();
-		        	if ((target.x< -target.size.width/2 && target.stage == 0) || (target.x > -target.size.width*3/2 && target.stage == 2)) {
-		            	target.runAction(cc.MoveTo(.3, cc.p(-target.size.width,0)));
-		            	target.stage = 1;          		
-		          	}
-		          	else if(target.x < - target.size.width*3/2){
-		            	target.runAction(cc.MoveTo(.3, cc.p(-target.size.width*2,0)));	
-		            	target.stage = 2;	          				          		
-		          	}
-		          	else {
-		          		target.runAction(cc.MoveTo(.3, cc.p(0,0)));
-		          		target.stage = 0;
-		          	}
+		         //    var target = event.getCurrentTarget();
+		        	// if ((target.x< -target.size.width/2 && target.stage == 0) || (target.x > -target.size.width*3/2 && target.stage == 2)) {
+		         //    	target.runAction(cc.MoveTo(.3, cc.p(-target.size.width,0)));
+		         //    	target.stage = 1;          		
+		         //  	}
+		         //  	else if(target.x < - target.size.width*3/2){
+		         //    	target.runAction(cc.MoveTo(.3, cc.p(-target.size.width*2,0)));	
+		         //    	target.stage = 2;	          				          		
+		         //  	}
+		         //  	else {
+		         //  		target.runAction(cc.MoveTo(.3, cc.p(0,0)));
+		         //  		target.stage = 0;
+		         //  	}
 		        }
 
             },this);
@@ -198,5 +215,23 @@ var GameOverLayer = cc.Layer.extend({
 	instructions:function(){
 		AdMob.hideAds(m);
 		cc.director.runScene(new MenuScene());
+	},
+	moveRight:function(){
+		this.moveLayer.runAction(new cc.MoveBy(.3, cc.p(-this.size.width,0)));
+		this.stage++;
+		this.rightArrow.visible = true;
+		this.leftArrow.visible = true;
+		if (this.stage == 3) {
+			this.rightArrow.visible = false;
+		};
+	},
+	moveLeft:function(){
+		this.moveLayer.runAction(new cc.MoveBy(.3,cc.p(this.size.width,0)));
+		this.stage--;
+		this.leftArrow.visible = true;
+		this.rightArrow.visible = true;
+		if (this.stage == 0) {
+			this.leftArrow.visible = false;
+		};
 	}
 });
