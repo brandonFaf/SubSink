@@ -121,8 +121,9 @@ var GameOverLayer = cc.Layer.extend({
 		this.moveLayer.addChild(this.missionLayer);
 
 		if (stats.missionPassed) {
-			this.x += this.size.width;
-
+			this.moveLayer.x += this.size.width;
+			this.stage--;
+			this.leftArrow.visible = false;
 			this.missionLayer.titleLabel.string = "New Mission"
 			
 
@@ -133,7 +134,7 @@ var GameOverLayer = cc.Layer.extend({
 			check.opacity = 150;
 			check.runAction(new cc.FadeOut(1.6))
 			check.runAction(new cc.Sequence(new cc.ScaleTo(1.2,1.6),new cc.CallFunc(this.removeChild, this, check)))
-			this.addChild(check,1000)
+			this.moveLayer.addChild(check,1000)
 		};
 
 
@@ -158,11 +159,11 @@ var GameOverLayer = cc.Layer.extend({
                     var ship = target.ship;
                     cc.log(key.toString())
                     if (key == 37) {
-                        target.x += - target.size.width
+                        target.moveLayer.x += - target.size.width
                     };
                     
                     if (key == 39) {
-                        target.x += target.size.width
+                        target.moveLayer.x += target.size.width
                     };
                     
                 	return true;

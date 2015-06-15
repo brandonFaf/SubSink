@@ -45,8 +45,8 @@ var GameLayer = cc.Layer.extend({
         this.secondary = isNaN(parseInt(ls.getItem("MissionSecondary"))) ? 0 : parseInt(ls.getItem("MissionSecondary"));
 
 
-		//get WinSize
-		this.size = cc.winSize;
+        //get WinSize
+        this.size = cc.winSize;
         var size = this.size;
         this.clearAllArrays();
         this.stats = {shotsTaken:0, shotsLanded:0, timePlayed:0, totalLongSubs:0, totalShortSubs:0, ammoCollected:0, healthCollected:0, missionPassed:false};
@@ -59,9 +59,10 @@ var GameLayer = cc.Layer.extend({
         this.levelLabel.setPosition(cc.p(this.levelLabel.width/2 + this.scoreLabel.width/4,this.scoreLabel.y-this.levelLabel.height));
         this.addChild(this.levelLabel, 20);
 
-        this.carePackageTime = Math.random() *5+5;
 
-		//set the starting position of the this.ship
+        this.carePackageTime = Math.random() *5+3;
+
+        //set the starting position of the this.ship
         this.ship = new Ship();
         this.ship.x = size.width/2;
         this.ship.y = this.gameVars.waterHeight + this.ship.height/2-this.ship.height/20;
@@ -96,11 +97,15 @@ var GameLayer = cc.Layer.extend({
         this.ammoLabel.setPosition(cc.p(size.width - this.pauseButtonLabel.width-this.ammoLabel.width,size.height-this.ammoLabel.height));
         this.addChild(this.ammoLabel, 20);
 
+        this.goalTimer = new cc.LabelTTF(":" + this.secondary, "Arial", this.gameVars.hudTextSize);
+        this.goalTimer.setPosition(cc.p(size.width - this.pauseButtonLabel.width-this.ammoLabel.width,this.ammoLabel.y-this.goalTimer.height));
+        this.addChild(this.goalTimer,20);
 
         this.createEventListeners();
 
+        this.checkMisison();
         this.scheduleUpdate();
-	},
+    },
     update: function(dt){
         this.move = true;
         if(!this.isPause){
@@ -108,14 +113,17 @@ var GameLayer = cc.Layer.extend({
             this.timeSinceLastHit += dt;
             //this.goalTimer += dt;
         }
-
-        if (!this.stats.missionPassed && this.lastSecond != Math.floor(this.stats.timePlayed) && Math.floor(this.stats.timePlayed) % this.secondary == 0) {
+        var second = Math.floor(this.stats.timePlayed);
+        if (!this.stats.missionPassed && this.lastSecond != second && second % this.secondary == 0) {
             this.timeUp = true;
             this.checkMisison();
             this.sunkInTime = 0;
         };
 
-        this.lastSecond = Math.floor(this.stats.timePlayed);
+        if (this.lastSecond != second) {
+            this.goalTimer.string = ":" + ((this.secondary -second%this.secondary));
+            this.lastSecond = second;
+        };
 
         if(this._subs.length < this.minSubs){
             this.wave++;
@@ -271,16 +279,17 @@ var GameLayer = cc.Layer.extend({
                 this.removeChild(this.pauseButtonLabel);
                 this.removeChild(this.pauseButtonLayer);
                 this.removeChild(this.ammoLabel);
+                this.removeChild(this.goalTimer);
+                    this.addChild(new GameOverLayer(this.score, this.stats), 1000);
 
         
-                this.scheduleOnce(function(){
-                    var moreLabel = new cc.LabelTTF("Swipe right to see more", "Arial", this.gameVars.gameOverLabelSize);
-                    moreLabel.x = this.size.width/2;
-                    moreLabel.y = this.size.height-moreLabel.height
-                    this.parent.addChild(moreLabel);
-                    //  moreLabel.runAction(cc.RepeatForever(cc.Sequence(cc.FadeOut(1), cc.FadeIn(1))));
-                    this.addChild(new GameOverLayer(this.score, this.stats), 1000);
-                }, 2)
+                // this.scheduleOnce(function(){
+                //     var moreLabel = new cc.LabelTTF("Swipe right to see more", "Arial", this.gameVars.gameOverLabelSize);
+                //     moreLabel.x = this.size.width/2;
+                //     moreLabel.y = this.size.height-moreLabel.height
+                //     this.parent.addChild(moreLabel);
+                //     //  moreLabel.runAction(cc.RepeatForever(cc.Sequence(cc.FadeOut(1), cc.FadeIn(1))));
+                // }, 2)
                 return;
             };
         };
@@ -428,6 +437,7 @@ var GameLayer = cc.Layer.extend({
         cc.log("mission passed " + this.missionPassed)
         cc.log("Sunk since last miss " + this.sunkSinceLastMiss);
         cc.log("goal "+ this.goal);
+        this.goalTimer.visible = false;
         switch(this.missionLevel % 7){
             case 0: //"Start a game by surviving " + mission.goal " + seconds without getting hit."
                 if(this.timeSinceLastHit >= this.goal){
@@ -452,6 +462,7 @@ var GameLayer = cc.Layer.extend({
                 }
                 break;
             case 3: //"Sink " + mission.goal + " subs in " + parseInt(level/7)+1 *5 + " seconds"
+            this.goalTimer.visible = true;
                 if((this.timeUp || this.ship.health == 0) && this.sunkInTime >= this.goal){
                     this.stats.missionPassed = true;
                     this.missionLevel++;
